@@ -26,7 +26,7 @@ Comments:
 {{!post['body']}}
 <p>
 <p>
-<em>Tags: </em>: 
+<em>Tags </em>: 
 %if ('tags' in post):
 %for tag in post['tags'][0:1]:
 <a href="/tag/{{tag}}">{{tag}}</a>

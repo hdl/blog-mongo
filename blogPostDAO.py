@@ -85,12 +85,12 @@ class BlogPostDAO:
         l = []
 
         for post in cursor:
-            post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p") # fix up date
-            if 'tags' not in post:
-                post['tags'] = [] # fill it in if its not there already
-            if 'comments' not in post:
-                post['comments'] = []
             try:
+                post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p") # fix up date
+                if 'tags' not in post:
+                    post['tags'] = [] # fill it in if its not there already
+                if 'comments' not in post:
+                    post['comments'] = []
                 l.append({'title':post['title'], 'body':post['body'], 'post_date':post['date'],
                       'permalink':post['permalink'],
                       'tags':post['tags'],
@@ -143,6 +143,13 @@ class BlogPostDAO:
             post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p")
 
         return post
+    def remove_post_by_permalink(self, permalink):
+        try:
+            self.posts.remove({'permalink': permalink})
+        except:
+            print "Error removing post"
+            print "Unexpected error:", sys.exc_info()[0]
+
 
     # add a comment to a particular blog post
     def add_comment(self, permalink, name, email, body):

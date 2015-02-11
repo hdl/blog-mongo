@@ -12,7 +12,7 @@ Welcome {{username}}        <a href="/logout">Logout</a> |
 <a href="/">Blog Home</a><br><br>
 
 <h2>{{post['title']}}</h2>
-Posted {{post['date']}}<i> By {{post['author']}}</i><br>
+Posted {{post['date']}}<i> By {{post['author']}}</i> <a href="/updatepost/{{post['permalink']}}">Update</a> <a href="/removepost/{{post['permalink']}}">Delete</a><br>
 <hr>
 {{!post['body']}}
 <p>

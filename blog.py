@@ -198,6 +198,17 @@ def post_newpost():
     bottle.redirect("/post/" + permalink)
 
 # update a particular blog post
+@bottle.get("/removepost/<permalink>")
+def remove_post(permalink="notfound"):
+
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+    permalink = cgi.escape(permalink)
+
+    post = posts.remove_post_by_permalink(permalink)
+    bottle.redirect("/")
+   # update a particular blog post
 @bottle.get("/updatepost/<permalink>")
 def update_post(permalink="notfound"):
 
