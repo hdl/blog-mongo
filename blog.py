@@ -38,6 +38,9 @@ __author__ = 'aje'
 # the bottle.py decorators also put each callback into a route table.
 
 # These are the routes that the blog must handle. They are decorated using bottle.py
+@bottle.route('/static/<filepath:path>')
+def server_static(filepath):
+    return bottle.static_file(filepath, root='static')
 
 # This route is the main page of the blog
 @bottle.route('/')
@@ -397,6 +400,8 @@ def validate_signup(email, password, verify, username):
         if not EMAIL_RE.match(email):
             errors += "invalid email address<br>"
     return errors
+
+
 
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)

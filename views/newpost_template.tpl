@@ -1,6 +1,10 @@
 %include('header.tpl', html_title='发布')
 
 
+<!-- include summernote css/js-->
+<link href="/static/summernote/summernote.css" rel="stylesheet">
+<script src="/static/summernote/summernote.js"></script>
+
 <div class="container" >
   <h2>发布</h2>
   <form role="form" action="/newpost" method="POST">
@@ -42,6 +46,12 @@
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#body').summernote({height: 150});
+});
+</script>
 
 %include('footer.tpl')
 
