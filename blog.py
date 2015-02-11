@@ -168,7 +168,7 @@ def get_newpost():
 @bottle.post('/newpost')
 def post_newpost():
     title = bottle.request.forms.get("subject")
-    post = bottle.request.forms.get("body")
+    body = bottle.request.forms.get("body")
     tags = bottle.request.forms.get("tags")
 
     cookie = bottle.request.get_cookie("session")
@@ -176,23 +176,23 @@ def post_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    if title == "" or post == "":
+    if title == "" or body == "":
         errors = "Post must contain a title and blog entry"
         return bottle.template("newpost_template", dict(subject=cgi.escape(title, quote=True), username=username,
-                                                        body=cgi.escape(post, quote=True), tags=tags, errors=errors))
+                                                        body=body, tags=tags, errors=errors))
 
     # extract tags
     tags = cgi.escape(tags)
     tags_array = extract_tags(tags)
 
     # looks like a good entry, insert it escaped
-    escaped_post = cgi.escape(post, quote=True)
+    #escaped_post = cgi.escape(post, quote=True)
 
     # substitute some <p> for the paragraph breaks
-    newline = re.compile('\r?\n')
-    formatted_post = newline.sub("<p>", escaped_post)
+    #newline = re.compile('\r?\n')
+    #formatted_post = newline.sub("<p>", escaped_post)
 
-    permalink = posts.insert_entry(title, formatted_post, tags_array, username)
+    permalink = posts.insert_entry(title, body, tags_array, username)
 
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
