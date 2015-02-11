@@ -49,11 +49,11 @@ class UserDAO:
         return hashlib.sha256(pw + salt).hexdigest()+","+ salt
 
     # Validates a user login. Returns user record or None
-    def validate_login(self, username, password):
+    def validate_login(self, email, password):
 
         user = None
         try:
-            user = self.users.find_one({'_id': username})
+            user = self.users.find_one({'_id': email})
             print user
         except:
             print "Unable to query database for user"
@@ -73,12 +73,10 @@ class UserDAO:
 
 
     # creates a new user in the users collection
-    def add_user(self, username, password, email):
+    def add_user(self, email, password, username):
         password_hash = self.make_pw_hash(password)
 
-        user = {'_id': username, 'password': password_hash}
-        if email != "":
-            user['email'] = email
+        user = {'_id': email, 'password': password_hash, 'username':username}
 
         try:
             self.users.insert(user, safe=True)

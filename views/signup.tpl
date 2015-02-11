@@ -1,75 +1,36 @@
-<!DOCTYPE html>
+%include('header.tpl', html_title='发布')
 
-<html>
-  <head>
-    <title>Sign Up</title>
-    <style type="text/css">
-      .label {text-align: right}
-      .error {color: red}
-    </style>
 
-  </head>
+<div class="container">
+  <h2>Sign Up</h2>
+  <form role="form" method="post">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{email}}">
+    </div>
+    <div class="form-group">
+      <label for="usr">User Name:</label>
+      <input type="text" class="form-control" id="usr" name="username" placeholder="User Name" value="{{username}}">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" value="">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" placeholder="Re-type password" name="verify" value="">
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox"> Remember me</label>
+    </div>
 
-  <body>
-    Already a user? <a href="/login">Login</a><p>
-    <h2>Signup</h2>
-    <form method="post">
-      <table>
-        <tr>
-          <td class="label">
-            Username
-          </td>
-          <td>
-            <input type="text" name="username" value="{{username}}">
-          </td>
-          <td class="error">
-	    {{username_error}}
-            
-          </td>
-        </tr>
+    <p class="bg-danger">{{errors}}</p>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
 
-        <tr>
-          <td class="label">
-            Password
-          </td>
-          <td>
-            <input type="password" name="password" value="">
-          </td>
-          <td class="error">
-	    {{password_error}}
-            
-          </td>
-        </tr>
 
-        <tr>
-          <td class="label">
-            Verify Password
-          </td>
-          <td>
-            <input type="password" name="verify" value="">
-          </td>
-          <td class="error">
-	    {{verify_error}}
-            
-          </td>
-        </tr>
 
-        <tr>
-          <td class="label">
-            Email (optional)
-          </td>
-          <td>
-            <input type="text" name="email" value="{{email}}">
-          </td>
-          <td class="error">
-	    {{email_error}}
-            
-          </td>
-        </tr>
-      </table>
 
-      <input type="submit">
-    </form>
-  </body>
-
-</html>
+    
+%include('footer.tpl')

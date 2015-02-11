@@ -1,11 +1,11 @@
 %include('header.tpl', html_title='发布')
 
 <div class="container">
-  <h2>Vertical (basic) form</h2>
+  <h2>Login</h2>
   <form role="form" method="post">
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="username" value="{{username}}">
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{email}}">
     </div>
     <div class="form-group">
       <label for="pwd">Password:</label>

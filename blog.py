@@ -256,30 +256,28 @@ def update_post(permalink="notfound"):
 @bottle.get('/signup')
 def present_signup():
     return bottle.template("signup",
-                           dict(username="", password="",
-                                password_error="",
-                                email="", username_error="", email_error="",
-                                verify_error =""))
+                           dict(email="", password="",
+                                username="", errors=""))
 
 # displays the initial blog login form
 @bottle.get('/login')
 def present_login():
     return bottle.template("login",
-                           dict(username="", password="",
+                           dict(username="", email="", password="",
                                 login_error=""))
 
 # handles a login request
 @bottle.post('/login')
 def process_login():
 
-    username = bottle.request.forms.get("username")
+    email = bottle.request.forms.get("email")
     password = bottle.request.forms.get("password")
 
-    print "user submitted ", username, "pass ", password
+    print "user submitted ", email, "pass ", password
 
-    user_record = users.validate_login(username, password)
+    user_record = users.validate_login(email, password)
     if user_record:
-        # username is stored in the user collection in the _id key
+        # email is stored in the user collection in the _id key
         session_id = sessions.start_session(user_record['_id'])
 
         if session_id is None:
@@ -296,7 +294,7 @@ def process_login():
 
     else:
         return bottle.template("login",
-                               dict(username=cgi.escape(username), password="",
+                               dict(email=email, password="",
                                     login_error="Invalid Login"))
 
 
@@ -328,21 +326,25 @@ def process_signup():
     verify = bottle.request.forms.get("verify")
 
     # set these up in case we have an error case
-    errors = {'username': cgi.escape(username), 'email': cgi.escape(email)}
-    if validate_signup(username, password, verify, email, errors):
+    errors=""
 
-        if not users.add_user(username, password, email):
+    errors = validate_signup(email, password, verify, username)
+    if errors == "":
+
+        if not users.add_user(email, password, username):
             # this was a duplicate
-            errors['username_error'] = "Username already in use. Please choose another"
-            return bottle.template("signup", errors)
+            errors= "email already in use. Please choose another"
+            return bottle.template("signup", dict(username=username, email=email,
+                                    errors=errors))
 
         session_id = sessions.start_session(username)
         print session_id
         bottle.response.set_cookie("session", session_id)
         bottle.redirect("/welcome")
     else:
-        print "user did not validate"
-        return bottle.template("signup", errors)
+        print "user did not validate in validate_signup()"
+        return bottle.template("signup", dict(username=username, email=email,
+                                    errors=errors))
 
 
 
@@ -381,31 +383,20 @@ def extract_tags(tags):
 
 # validates that the user information is valid for new signup, return True of False
 # and fills in the error string if there is an issue
-def validate_signup(username, password, verify, email, errors):
-    USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-    PASS_RE = re.compile(r"^.{3,20}$")
+def validate_signup(email, password, verify, username):
+
     EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
-
-    errors['username_error'] = ""
-    errors['password_error'] = ""
-    errors['verify_error'] = ""
-    errors['email_error'] = ""
-
-    if not USER_RE.match(username):
-        errors['username_error'] = "invalid username. try just letters and numbers"
-        return False
-
-    if not PASS_RE.match(password):
-        errors['password_error'] = "invalid password."
-        return False
+    errors=""
+    if not 4<=len(username)<=20:
+        errors += "User Name Length: 4-20<br>"
+    if not 4<=len(password)<=20:
+        errors  += "Password Length: 4-20<br>"
     if password != verify:
-        errors['verify_error'] = "password must match"
-        return False
+        errors += "password must match<br>"
     if email != "":
         if not EMAIL_RE.match(email):
-            errors['email_error'] = "invalid email address"
-            return False
-    return True
+            errors += "invalid email address<br>"
+    return errors
 
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)
