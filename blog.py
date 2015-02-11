@@ -160,7 +160,7 @@ def get_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("newpost_template", dict(subject="", body = "", errors="", tags="", username=username))
+    return bottle.template("newpost_template", dict(subject="", price="", deliver_method="", deliver_time="", payment_method="", requirements="", body = "", errors="", tags="", username=username))
 
 #
 # Post handler for setting up a new post.
