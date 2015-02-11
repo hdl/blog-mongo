@@ -34,33 +34,49 @@ class BlogPostDAO:
 
     # inserts the blog entry and returns a permalink for the entry
     def insert_entry(self, title, post, tags_array, author):
-        print "inserting blog entry", title, post
+        print "inserting blog entry", title
 
         # fix up the permalink to not include whitespace
 
-        exp = re.compile('\W') # match anything not alphanumeric
-        whitespace = re.compile('\s')
-        temp_title = whitespace.sub("_",title)
-        permalink = exp.sub('', temp_title)
-
+        #exp = re.compile('\W') # match anything not alphanumeric
+        #whitespace = re.compile('\s')
+        #permalink = whitespace.sub("_",title)
+        #permalink = exp.sub('', temp_title)
         # Build a new post
         post = {"title": title,
                 "author": author,
                 "body": post,
-                "permalink":permalink,
+                "permalink":"a-copy-of-id",
                 "tags": tags_array,
                 "comments": [],
                 "date": datetime.datetime.utcnow()}
 
         # now insert the post
         try:
-            self.posts.insert(post)
+            post_id = self.posts.insert(post)
             print "Inserting the post"
+            #update permalink to _id
+            self.posts.update({"_id": post_id}, {"$set": {"permalink": str(post_id)}});
         except:
             print "Error inserting post"
             print "Unexpected error:", sys.exc_info()[0]
 
-        return permalink
+        return str(post_id)
+    def update_entry(self, permalink, title, body, tags_array, author):
+        print "updating blog entry"
+
+        # now update the post
+        try:
+            print "Updating the post"
+            self.posts.update({"permalink": permalink}, {"$set": 
+                {"title": title, 
+                 "body":body, 
+                 "tags":tags_array,
+                "date":datetime.datetime.utcnow()}});
+        except:
+            print "Error updating post"
+            print "Unexpected error:", sys.exc_info()[0]
+
 
     # returns an array of num_posts posts, reverse ordered
     def get_posts(self, num_posts):
@@ -74,12 +90,15 @@ class BlogPostDAO:
                 post['tags'] = [] # fill it in if its not there already
             if 'comments' not in post:
                 post['comments'] = []
-
-            l.append({'title':post['title'], 'body':post['body'], 'post_date':post['date'],
+            try:
+                l.append({'title':post['title'], 'body':post['body'], 'post_date':post['date'],
                       'permalink':post['permalink'],
                       'tags':post['tags'],
                       'author':post['author'],
                       'comments':post['comments']})
+            except:
+                print "key error in post ",str(post['_id'])
+                continue
 
         return l
 

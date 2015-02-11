@@ -197,7 +197,50 @@ def post_newpost():
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
 
+# update a particular blog post
+@bottle.get("/updatepost/<permalink>")
+def update_post(permalink="notfound"):
 
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+    permalink = cgi.escape(permalink)
+
+    print "(update)about to query on permalink = ", permalink
+    post = posts.get_post_by_permalink(permalink)
+
+    if post is None:
+        bottle.redirect("/post_not_found")
+    tags = ""
+    for tag in post["tags"]:
+        tags = tags + "," + tag
+    tags = tags[1:]
+    return bottle.template("updatepost_template", dict(username=username, errors="",subject=post['title'], body=post['body'],tags=tags, permalink=permalink))
+
+@bottle.post("/updatepost")
+def update_post(permalink="notfound"):
+    title = bottle.request.forms.get("subject")
+    body = bottle.request.forms.get("body")
+    tags = bottle.request.forms.get("tags")
+    permalink = bottle.request.forms.get("permalink")
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+
+    if title == "" or body == "":
+        errors = "Post must contain a title and blog entry"
+        return bottle.template("updatepost_template", dict(username=username, errors="",subject=title, body=body,tags=tags, permalink=permalink))
+
+    # extract tags
+    tags = cgi.escape(tags)
+    tags_array = extract_tags(tags)
+
+    posts.update_entry(permalink, title, body, tags_array, username)
+    print "updated entry, redict to" + permalink
+    # now bottle.redirect to the blog permalink
+    bottle.redirect("/post/" + permalink)
 # displays the initial blog signup form
 @bottle.get('/signup')
 def present_signup():
