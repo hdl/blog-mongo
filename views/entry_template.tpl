@@ -1,15 +1,4 @@
-<!doctype HTML>
-<html
-<head>
-<title>
-Blog Post
-</title>
-</head>
-<body>
-%if (username != None):
-Welcome {{username}}        <a href="/logout">Logout</a> | 
-%end
-<a href="/">Blog Home</a><br><br>
+%include('header.tpl', html_title='看看这个')
 
 <h2>{{post['title']}}</h2>
 Posted {{post['date']}}<i> By {{post['author']}}</i> <a href="/updatepost/{{post['permalink']}}">Update</a> <a href="/removepost/{{post['permalink']}}">Delete</a><br>
@@ -55,7 +44,6 @@ Likes: {{post['comments'][i]['num_likes']}} <input type="submit" value="Like"></
 <input type="submit" value="Submit">
 </form>
 </ul>
-</body>
-</html>
+%include('footer.tpl')
 
 

@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>北美蹭饭网</title>
-</head>
-<body>
-
-%if (username != None):
-Welcome {{username}} | <a href="http://www.usc.edu">Univeristy of Southern California</a> | <a href="/logout">Logout</a> | <a href="/newpost">我想蹭饭</a> | <a href="/newpost">我能做饭</a><p>
-%end
+%include('header.tpl', html_title='首页')
 
 <h1 align="center">北美蹭饭网</h1>
-<h2 align="center">看蹭饭的人  看能蹭的饭</h2>
+<div align="center"><a href="">要蹭饭的人</a>  <a href="">能做饭的人</a></div>
 
 %for post in myposts:
 <h2><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h2>
@@ -34,10 +25,10 @@ Comments:
 , <a href="/tag/{{tag}}">{{tag}}</a>
 %end
 %end
-
 <p>
 %end
-</body>
-</html>
+
+%include('footer.tpl')
+
 
 

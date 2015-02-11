@@ -1,12 +1,6 @@
-<!doctype HTML>
-<html>
-<head>
-<title>Create a new post</title>
-</head>
-<body>
-%if (username != None):
-Welcome {{username}}        <a href="/logout">Logout</a> | <a href="/">Blog Home</a><p>
-%end
+%include('header.tpl', html_title='发布')
+
+
 <form action="/newpost" method="POST">
 {{errors}}
 <h2>Title</h2>
@@ -19,6 +13,5 @@ Comma separated, please<br>
 <p>
 <input type="submit" value="Submit">
 
-</body>
-</html>
+%include('footer.tpl')
 
