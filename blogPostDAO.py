@@ -81,11 +81,7 @@ class BlogPostDAO:
                     post['tags'] = [] # fill it in if its not there already
                 if 'comments' not in post:
                     post['comments'] = []
-                l.append({'title':post['title'], 'body':post['body'], 'post_date':post['date'],
-                      'permalink':post['permalink'],
-                      'tags':post['tags'],
-                      'author':post['author'],
-                      'comments':post['comments']})
+                l.append(post)
             except:
                 print "key error in post ",str(post['_id'])
                 continue

@@ -1,32 +1,38 @@
 %include('header.tpl', html_title='首页')
 
-<h1 align="center">北美蹭饭网</h1>
-<div align="center"><a href="">要蹭饭的人</a>  <a href="">能做饭的人</a></div>
+<div class="container">
+  <ul class="nav nav-pills" style="margin-left:40%" align="center">
+    <li class="active"><a href="#">要蹭饭的人</a></li>
+    <li><a href="#">能做饭的人</a></li>
+  </ul>
 
-%for post in myposts:
-<h2><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h2>
-Posted {{post['post_date']}} <i>By {{post['author']}}</i><br>
-Comments: 
-%if ('comments' in post):
-%numComments = len(post['comments'])
-%else:
-%numComments = 0
-%end
-<a href="/post/{{post['permalink']}}">{{numComments}}</a>
-<hr>
-{{!post['body']}}
-<p>
-<p>
-<em>Tags </em>: 
-%if ('tags' in post):
-%for tag in post['tags'][0:1]:
-<a href="/tag/{{tag}}">{{tag}}</a>
-%for tag in post['tags'][1:]:
-, <a href="/tag/{{tag}}">{{tag}}</a>
-%end
-%end
-<p>
-%end
+
+  <h2>Today: </h2>         
+
+    	%for post in myposts:
+    		<div class="row">
+    			<div class="col-md-4"> 
+        			<h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a><br></h3>
+        			价钱: {{post['price']}}<br>
+        			时间: {{post['deliver_time']}}<br>
+        			支付方式: {{post['payment_method']}}
+        		</div>
+        		<div class="col-md-4"> 
+        			<h3><br></h3>
+        			deliver方式: {{post['deliver_method']}}<br>
+        			特殊要求: {{post['requirements']}} <br>
+        			联系方式: 邮箱，电话，微信
+        		</div>
+        		<div class="col-md-4"> 
+        			<h3><br></h3>
+        			<button type="submit" class="btn btn-success">勾搭</button> 
+        			<button type="submit" class="btn btn-success">评论</button>
+        		</div>
+        	</div>
+        	<hr>
+		%end
+
+</div>
 
 %include('footer.tpl')
 
