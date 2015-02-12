@@ -10,7 +10,7 @@
 <div class="container" >
   <form role="form" action="/newpost" method="POST">
       <h2>填写以下信息吧 <button type="submit" class="btn pull-right btn-success"> 发布 </button></h2>
-        <p class="bg-danger">{{errors}}</p>
+      <div class="alert alert-danger" role="alert">{{errors}}</div>
     <div class="form-group">
       <label for="role"><code>*</code> 选择角色</label>
       <select class="form-control" id="role" name="role">

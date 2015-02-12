@@ -79,7 +79,7 @@
 <p></p>
 <form action="/newcomment" method="POST">
 <input type="hidden" name="permalink", value="{{post['permalink']}}">
-{{errors}}
+<div class="alert alert-danger" role="alert">{{errors}}</div>
 <b>Name</b> (required)<br>
 <input type="text" name="commentName" size="60" value="{{comment['name']}}"><br>
 <b>Email</b> (optional)<br>

@@ -7,7 +7,6 @@
     <li id="host_li" ><a href="#" onclick="hostFunction();" >能做饭的人</a></li>
   </ul>
 
-
   <h2>Today: </h2>         
   		<div id="guest">
     	%for post in guest_posts:

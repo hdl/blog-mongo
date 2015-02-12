@@ -3,6 +3,7 @@
 <link href="/static/css/signin.css" rel="stylesheet">
 
 <body>
+
     <div class="container">
 
       <form class="form-signin" method="post">
@@ -16,7 +17,7 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <p class="bg-danger">{{login_error}}</p>
+        <div class="alert alert-danger" role="alert">{{login_error}}</div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
 

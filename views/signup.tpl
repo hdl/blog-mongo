@@ -25,7 +25,7 @@
       <label><input type="checkbox"> Remember me</label>
     </div>
 
-    <p class="bg-danger">{{errors}}</p>
+    <div class="alert alert-danger" role="alert">{{errors}}</div>
     <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
   </form>
 </div>
