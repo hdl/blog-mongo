@@ -24,8 +24,9 @@
     <div class="checkbox">
       <label><input type="checkbox"> Remember me</label>
     </div>
-
+    %if (errors != ""):
     <div class="alert alert-danger" role="alert">{{errors}}</div>
+    %end
     <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
   </form>
 </div>

@@ -330,7 +330,7 @@ def present_signup():
 def present_login():
     return bottle.template("login",
                            dict(username="", email="", password="",
-                                login_error=""))
+                                errors=""))
 
 # handles a login request
 @bottle.post('/login')
@@ -361,7 +361,7 @@ def process_login():
     else:
         return bottle.template("login",
                                dict(email=email, password="",
-                                    login_error="Invalid Login"))
+                                    errors="Invalid Login"))
 
 
 @bottle.get('/internal_error')
@@ -454,11 +454,11 @@ def validate_signup(email, password, verify, username):
     EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
     errors=""
     if not 4<=len(username)<=20:
-        errors += "User Name Length: 4-20<br>"
+        errors += "User Name Length: 4-20 \n"
     if not 4<=len(password)<=20:
-        errors  += "Password Length: 4-20<br>"
+        errors  += "Password Length: 4-20 \n"
     if password != verify:
-        errors += "password must match<br>"
+        errors += "<p>password must match</p>"
     if email != "":
         if not EMAIL_RE.match(email):
             errors += "invalid email address<br>"

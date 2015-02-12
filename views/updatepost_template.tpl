@@ -9,7 +9,9 @@
 <div class="container" >
   <form role="form" action="/updatepost" method="POST">
       <h2>更改以下信息吧 <button type="submit" class="btn pull-right btn-success"> 更新 </button></h2>
+      %if (errors != ""):
        <div class="alert alert-danger" role="alert">{{errors}}</div>
+      %end
     <div class="form-group">
       <label for="role"><code>*</code> 选择角色</label>
       <select class="form-control" id="role" name="role">

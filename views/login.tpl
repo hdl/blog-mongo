@@ -17,7 +17,9 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <div class="alert alert-danger" role="alert">{{login_error}}</div>
+        %if (errors != ""):
+        <div class="alert alert-danger" role="alert">{{errors}}</div>
+        %end
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
 
