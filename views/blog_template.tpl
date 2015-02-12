@@ -1,5 +1,6 @@
 %include('header.tpl', html_title='首页')
-
+%include('nav.tpl')
+<body>
 <div class="container">
   <ul class="nav nav-pills" style="margin-left:40%" align="center">
     <li id="guest_li" class="active"><a href="#" onclick="guestFunction();">要蹭饭的人</a></li>
@@ -58,7 +59,7 @@
 		</div>
 
 </div>
-
+</body>
 <script>
 function guestFunction() {
   document.getElementById('host').style.display = "none";

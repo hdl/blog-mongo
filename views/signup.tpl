@@ -1,9 +1,10 @@
 %include('header.tpl', html_title='发布')
+<link href="/static/css/signin.css" rel="stylesheet">
 
-
+<body>
 <div class="container">
-  <h2>Sign Up</h2>
-  <form role="form" method="post">
+  <form class="form-signin" role="form" method="post">
+    <h2 class="form-signin-heading">Sign Up</h2>
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{email}}">
@@ -25,12 +26,10 @@
     </div>
 
     <p class="bg-danger">{{errors}}</p>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
   </form>
 </div>
 
-
-
-
+</body>
     
 %include('footer.tpl')

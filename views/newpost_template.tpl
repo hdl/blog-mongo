@@ -1,9 +1,11 @@
+
 %include('header.tpl', html_title='发布')
-
-
 <!-- include summernote css/js-->
 <link href="/static/summernote/summernote.css" rel="stylesheet">
 <script src="/static/summernote/summernote.js"></script>
+
+<body>
+%include('nav.tpl')
 
 <div class="container" >
   <form role="form" action="/newpost" method="POST">
@@ -63,7 +65,7 @@
 </div>
 <p>
 	</p>
-
+</body>
 
 <script type="text/javascript">
 $(document).ready(function() {

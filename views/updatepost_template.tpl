@@ -4,7 +4,8 @@
 <!-- include summernote css/js-->
 <link href="/static/summernote/summernote.css" rel="stylesheet">
 <script src="/static/summernote/summernote.js"></script>
-
+%include('nav.tpl')
+<body>
 <div class="container" >
   <form role="form" action="/updatepost" method="POST">
       <h2>更改以下信息吧 <button type="submit" class="btn pull-right btn-success"> 更新 </button></h2>
@@ -66,7 +67,7 @@
 </div>
 <p>
 	</p>
-
+</body>
 
 <script type="text/javascript">
 $(document).ready(function() {

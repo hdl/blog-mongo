@@ -1,16 +1,7 @@
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <title>Welcome</title>
-    <style type="text/css">
-      .label {text-align: right}
-      .error {color: red}
-    </style>
+%include('header.tpl', html_title='Welcome')
 
-  </head>
-
-  <body>
+<body>
     Welcome {{username}}
 <p>
 <ul>
@@ -24,4 +15,4 @@
 
   </body>
 
-</html>
+%include('footer.tpl')

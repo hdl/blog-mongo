@@ -1,5 +1,10 @@
 %include('header.tpl', html_title='看看这个')
 
+
+
+<body>
+%include('nav.tpl')
+
 <p>
 				<h2>
                 <a href="#">{{post['title']}}</a>
@@ -83,6 +88,8 @@
 <textarea name="commentBody" cols="60" rows="10">{{comment['body']}}</textarea><br>
 <input type="submit" value="Submit">
 </form>
+
+</body>
 %include('footer.tpl')
 
 
