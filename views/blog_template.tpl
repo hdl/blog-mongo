@@ -2,10 +2,19 @@
 %include('nav.tpl')
 <body>
 <div class="container">
+
+
   <ul class="nav nav-pills" style="margin-left:40%" align="center">
     <li id="guest_li" class="active"><a href="#" onclick="guestFunction();">要蹭饭的人</a></li>
     <li id="host_li" ><a href="#" onclick="hostFunction();" >能做饭的人</a></li>
   </ul>
+
+    <nav>
+  <ul class="pager">
+    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Future</a></li>
+    <li class="next"><a href="#"> Past<span aria-hidden="true">&rarr;</span></a></li>
+  </ul>
+</nav>
 
   <h2>Today: </h2>         
   		<div id="guest">
