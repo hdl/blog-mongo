@@ -22,8 +22,7 @@
     <div>
       <ul class="nav navbar-nav">
       	<li><a href="/userhome">{{username}}</a></li>
-        <li><a href="/newpost">我想蹭饭</a></li>
-        <li><a href="/newpost">我能做饭</a></li>
+        <li><a href="/newpost">我要发布！</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -39,8 +38,7 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
-        <li><a href="/newpost">我想蹭饭</a></li>
-        <li><a href="/newpost">我能做饭</a></li>
+        <li><a href="/newpost">我要发布！</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

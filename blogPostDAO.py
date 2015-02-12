@@ -87,7 +87,22 @@ class BlogPostDAO:
                 continue
 
         return l
+    # returns an array of num_posts posts, reverse ordered, filtered by role
+    def get_posts_by_role(self, role, num_posts):
 
+        cursor = self.posts.find({'role':role}).sort('date', direction=-1).limit(num_posts)
+        l = []
+
+        for post in cursor:
+            post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p")     # fix up date
+            if 'tags' not in post:
+                post['tags'] = []           # fill it in if its not there already
+            if 'comments' not in post:
+                post['comments'] = []
+
+            l.append(post)
+
+        return l
     # returns an array of num_posts posts, reverse ordered, filtered by tag
     def get_posts_by_tag(self, tag, num_posts):
 

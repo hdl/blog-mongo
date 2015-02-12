@@ -51,9 +51,10 @@ def blog_index():
     username = sessions.get_username(cookie)
 
     # even if there is no logged in user, we can show the blog
-    l = posts.get_posts(10)
+    guest_list = posts.get_posts_by_role("guest", 10)
+    host_list = posts.get_posts_by_role("host", 10)
 
-    return bottle.template('blog_template', dict(myposts=l, username=username))
+    return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
 
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')
@@ -163,7 +164,7 @@ def get_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("newpost_template", dict(subject="", price="", deliver_method="", deliver_time="", 
+    return bottle.template("newpost_template", dict(role="guest", subject="", price="", deliver_method="", deliver_time="", 
         payment_method="", requirements="", body = "", errors="", tags="", username=username),
         phone="", wechat="")
 
@@ -172,6 +173,7 @@ def get_newpost():
 # Only works for logged in user.
 @bottle.post('/newpost')
 def post_newpost():
+    role = bottle.request.forms.get("role")
     title = bottle.request.forms.get("subject")
     body = bottle.request.forms.get("body")
     tags = bottle.request.forms.get("tags")
@@ -197,7 +199,7 @@ def post_newpost():
     if price == "":
         errors += "Price ???\n"
     if errors is not '':
-        return bottle.template("newpost_template", dict(subject=title, username=username, price=price, deliver_time=deliver_time,
+        return bottle.template("newpost_template", dict(role=role, subject=title, username=username, price=price, deliver_time=deliver_time,
                                                         payment_method=payment_method, deliver_method=deliver_method,requirements=requirements,
                                                         body=body, tags=tags, phone=phone, wechat=wechat, errors=errors))
 
@@ -206,7 +208,8 @@ def post_newpost():
     tags_array = extract_tags(tags)
     
     # prepare for the post, TODO: this should be done in DAO class
-    post = {"title": title,
+    post = {    "role":role,
+                "title": title,
                 "author": username,
                 "body": body,
                 "price": price,

@@ -6,18 +6,26 @@
 <script src="/static/summernote/summernote.js"></script>
 
 <div class="container" >
-  <h2>发布</h2>
   <form role="form" action="/newpost" method="POST">
+      <h2>填写以下信息吧 <button type="submit" class="btn pull-right btn-success"> 发布 </button></h2>
+        <p class="bg-danger">{{errors}}</p>
     <div class="form-group">
-      <label for="title">标题</label>
+      <label for="role"><code>*</code> 选择角色</label>
+      <select class="form-control" id="role" name="role">
+        <option value="guest">我想蹭饭</option>
+        <option value="host">我能做饭</option>
+      </select>
+</div>
+    <div class="form-group">
+      <label for="title"><code>*</code> 标题</label>
       <input type="text" class="form-control" id="subject" placeholder="快取一个吸引眼球的标题吧！" name="subject" value="{{subject}}">
     </div>
     <div class="form-group">
-      <label for="price">期望价格</label>
+      <label for="price"><code>*</code> 期望价格</label>
       <input type="text" class="form-control" id="price" placeholder="可以是区间哦" name="price" value="{{price}}">
     </div>
     <div class="form-group">
-      <label for="deliver_time">吃饭时间</label>
+      <label for="deliver_time"><code>*</code> 吃饭时间</label>
       <input type="text" class="form-control" id="eat_time" placeholder="你想什么时候吃到饭？5PM-7PM?" name="deliver_time" value="{{deliver_time}}">
     </div>
     <div class="form-group">
@@ -49,7 +57,7 @@
       <label for="tags">Tags</label>
       <input type="text" class="form-control" id="tags" placeholder="写上标签，逗号隔开~" name="tags" value="{{tags}}">
     </div>
-    <p class="bg-danger">{{errors}}</p>
+
     <button type="submit" class="btn btn-success"> 发布 </button>
   </form>
 </div>
