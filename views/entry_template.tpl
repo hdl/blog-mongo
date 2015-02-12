@@ -1,21 +1,16 @@
 %include('header.tpl', html_title='看看这个')
 
-<h2>{{post['title']}}</h2>
-Posted {{post['date']}}<i> By {{post['author']}}</i> <a href="/updatepost/{{post['permalink']}}">Update</a> <a href="/removepost/{{post['permalink']}}">Delete</a><br>
+<h2>{{post['title']}} 
+<a href="/updatepost/{{post['permalink']}}" type="submit" class="btn btn-success">修改</a>
+<a href="/removepost/{{post['permalink']}}" type="submit" class="btn btn-danger">删除</a>
+</h2>
+Posted {{post['date']}}<i> By {{post['author']}}</i><br>
 <hr>
 {{!post['body']}}
 <p>
-<em>Filed Under</em>: 
-%if ('tags' in post):
-%for tag in post['tags'][0:1]:
-<a href="/tag/{{tag}}">{{tag}}</a>
-%for tag in post['tags'][1:]:
-, <a href="/tag/{{tag}}">{{tag}}</a>
-%end
-%end
-%end
+
 <p>
-Comments: 
+<h3>Comments</h3>
 <ul>
 %if ('comments' in post):
 %numComments = len(post['comments'])
@@ -32,6 +27,23 @@ Likes: {{post['comments'][i]['num_likes']}} <input type="submit" value="Like"></
 <hr>
 %end
 <h3>Add a comment</h3>
+
+<form role="form" action="/newcomment" method="POST">
+
+	<div class="form-group">
+  		<label for="comment">Comment:</label>
+  		<textarea class="form-control" rows="5" id="commentEmail" name="commentEmail">{{comment['body']}}</textarea>
+	</div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+</ul>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <form action="/newcomment" method="POST">
 <input type="hidden" name="permalink", value="{{post['permalink']}}">
 {{errors}}
@@ -43,7 +55,6 @@ Likes: {{post['comments'][i]['num_likes']}} <input type="submit" value="Like"></
 <textarea name="commentBody" cols="60" rows="10">{{comment['body']}}</textarea><br>
 <input type="submit" value="Submit">
 </form>
-</ul>
 %include('footer.tpl')
 
 
