@@ -1,31 +1,59 @@
 %include('header.tpl', html_title='看看这个')
 
-<h2>{{post['title']}} 
-<a href="/updatepost/{{post['permalink']}}" type="submit" class="btn btn-success">修改</a>
-<a href="/removepost/{{post['permalink']}}" type="submit" class="btn btn-danger">删除</a>
-</h2>
-Posted {{post['date']}}<i> By {{post['author']}}</i><br>
-<hr>
-{{!post['body']}}
 <p>
+				<h2>
+                <a href="#">{{post['title']}}</a>
+                </h2>
+                <p class="lead">
+                    By <a href="#">{{post['author']}}</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> {{post['date']}}</p>
+                <hr>
+                图片
+                <hr>
+                <p>角色 : {{post['role']}}</p>
+                <p>期待价格 : {{post['price']}}</p>
+                <p>吃饭时间 : {{post['deliver_time']}}</p>
+                <p>支付方式 : {{post['payment_method']}}</p>
+                <p>Deliver方式 : {{post['deliver_method']}}</p>
+                <p>特殊要求 : {{post['requirements']}}</p>
+                <p>详细描述 : </p>
+                <div>{{!post['body']}}</div>
+                <a class="btn btn-primary" href="/updatepost/{{post['permalink']}}">Update Post <span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-danger" href="/removepost/{{post['permalink']}}">Remove Post <span class="glyphicon glyphicon-trash"></span></a>
+
+                <hr>
 
 <p>
 <h3>Comments</h3>
-<ul>
+
+<div class="well">
+	<div class="row">
+		            <div class="text-right">
+                        <a class="btn btn-success">Leave a Comment <span class="glyphicon glyphicon-comment"></span></a>
+                    </div>
+
+                    <hr>
+
+
 %if ('comments' in post):
 %numComments = len(post['comments'])
 %else:
 %numComments = 0
 %end
 %for i in range(0, numComments):
-<form action="/like" method="POST">
-<input type="hidden" name="permalink", value="{{post['permalink']}}">
-<input type="hidden" name="comment_ordinal", value="{{i}}">
-Author: {{post['comments'][i]['author']}}<br>
-Likes: {{post['comments'][i]['num_likes']}} <input type="submit" value="Like"></form><br>
-{{post['comments'][i]['body']}}<br>
-<hr>
+                 <div class="col-md-12">
+                            {{post['comments'][i]['author']}}
+                            <span class="pull-right">10 days ago</span>
+                            <p>{{post['comments'][i]['body']}}</p>
+                        </div>
+                    </div>
+				<hr>
 %end
+
+	</div>
+</div>
+
 <h3>Add a comment</h3>
 
 <form role="form" action="/newcomment" method="POST">
@@ -39,7 +67,7 @@ Likes: {{post['comments'][i]['num_likes']}} <input type="submit" value="Like"></
 </form>
 
 
-</ul>
+
 <p></p>
 <p></p>
 <p></p>
