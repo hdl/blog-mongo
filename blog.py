@@ -238,9 +238,10 @@ def remove_post(permalink="notfound"):
 
     post = posts.remove_post_by_permalink(permalink)
     bottle.redirect("/")
-   # update a particular blog post
+
+# update a particular blog post
 @bottle.get("/updatepost/<permalink>")
-def update_post(permalink="notfound"):
+def update_get(permalink="notfound"):
 
     cookie = bottle.request.get_cookie("session")
 
@@ -256,32 +257,67 @@ def update_post(permalink="notfound"):
     for tag in post["tags"]:
         tags = tags + "," + tag
     tags = tags[1:]
-    return bottle.template("updatepost_template", dict(username=username, errors="",subject=post['title'], body=post['body'],tags=tags, permalink=permalink))
+    return bottle.template("updatepost_template", dict(role=post['role'], subject=post['title'], username=post['author'], price=post['price'], 
+                                                        deliver_time=post['deliver_time'],payment_method=post['payment_method'], deliver_method=post['deliver_method'],requirements=post['requirements'],
+                                                        body=post['body'], tags=post['tags'], phone=post['phone'], wechat=post['wechat'], permalink=permalink, errors=""))
 
 @bottle.post("/updatepost")
-def update_post(permalink="notfound"):
+def update_post():
+    role = bottle.request.forms.get("role")
     title = bottle.request.forms.get("subject")
     body = bottle.request.forms.get("body")
     tags = bottle.request.forms.get("tags")
+    price = bottle.request.forms.get("price")
+    deliver_time = bottle.request.forms.get("deliver_time")
+    payment_method = bottle.request.forms.get("payment_method")
+    deliver_method = bottle.request.forms.get("deliver_method")
+    requirements = bottle.request.forms.get("requirements")
+    phone = bottle.request.forms.get("phone")
+    wechat = bottle.request.forms.get("wechat")
     permalink = bottle.request.forms.get("permalink")
-
+    
+    
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
         bottle.redirect("/login")
 
-    if title == "" or body == "":
-        errors = "Post must contain a title and blog entry"
-        return bottle.template("updatepost_template", dict(username=username, errors="",subject=title, body=body,tags=tags, permalink=permalink))
+    errors=''
+    if title == "": 
+        errors += 'Need a tile name!\n'
+    if deliver_time == "":
+        errors += "When do you want to eat!\n"
+    if price == "":
+        errors += "Price ???\n"
+    if errors is not '':
+        return bottle.template("newpost_template", dict(role=role, subject=title, username=username, price=price, deliver_time=deliver_time,
+                                                        payment_method=payment_method, deliver_method=deliver_method,requirements=requirements,
+                                                        body=body, tags=tags, phone=phone, wechat=wechat, permalink=permalink, errors=errors))
 
     # extract tags
     tags = cgi.escape(tags)
     tags_array = extract_tags(tags)
+    
+    # prepare for the post, TODO: this should be done in DAO class
+    post = {    "role":role,
+                "title": title,
+                "author": username,
+                "body": body,
+                "price": price,
+                "deliver_time":deliver_time,
+                "payment_method": payment_method, 
+                "deliver_method": deliver_method,
+                "requirements": requirements,
+                "body": body,
+                "tags": tags_array,
+                "phone": phone,
+                "wechat": wechat}
 
-    posts.update_entry(permalink, title, body, tags_array, username)
-    print "updated entry, redict to" + permalink
+    posts.update_entry(permalink, post)
+
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
+
 # displays the initial blog signup form
 @bottle.get('/signup')
 def present_signup():

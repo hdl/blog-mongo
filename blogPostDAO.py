@@ -52,17 +52,14 @@ class BlogPostDAO:
             print "Unexpected error:", sys.exc_info()[0]
 
         return str(post_id)
-    def update_entry(self, permalink, title, body, tags_array, author):
+    def update_entry(self, permalink, post):
         print "updating blog entry"
 
         # now update the post
         try:
             print "Updating the post"
-            self.posts.update({"permalink": permalink}, {"$set": 
-                {"title": title, 
-                 "body":body, 
-                 "tags":tags_array,
-                "date":datetime.datetime.utcnow()}});
+            #self.posts.update({"permalink": permalink}, {"$set": {});
+            self.posts.update({'permalink': permalink}, {'$set': post})
         except:
             print "Error updating post"
             print "Unexpected error:", sys.exc_info()[0]
