@@ -163,7 +163,9 @@ def get_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("newpost_template", dict(subject="", price="", deliver_method="", deliver_time="", payment_method="", requirements="", body = "", errors="", tags="", username=username))
+    return bottle.template("newpost_template", dict(subject="", price="", deliver_method="", deliver_time="", 
+        payment_method="", requirements="", body = "", errors="", tags="", username=username),
+        phone="", wechat="")
 
 #
 # Post handler for setting up a new post.
@@ -173,29 +175,51 @@ def post_newpost():
     title = bottle.request.forms.get("subject")
     body = bottle.request.forms.get("body")
     tags = bottle.request.forms.get("tags")
-
+    price = bottle.request.forms.get("price")
+    deliver_time = bottle.request.forms.get("deliver_time")
+    payment_method = bottle.request.forms.get("payment_method")
+    deliver_method = bottle.request.forms.get("deliver_method")
+    requirements = bottle.request.forms.get("requirements")
+    phone = bottle.request.forms.get("phone")
+    wechat = bottle.request.forms.get("wechat")
+    
+    
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
         bottle.redirect("/login")
 
-    if title == "" or body == "":
-        errors = "Post must contain a title and blog entry"
-        return bottle.template("newpost_template", dict(subject=cgi.escape(title, quote=True), username=username,
-                                                        body=body, tags=tags, errors=errors))
+    errors=''
+    if title == "": 
+        errors += 'Need a tile name!\n'
+    if deliver_time == "":
+        errors += "When do you want to eat!\n"
+    if price == "":
+        errors += "Price ???\n"
+    if errors is not '':
+        return bottle.template("newpost_template", dict(subject=title, username=username, price=price, deliver_time=deliver_time,
+                                                        payment_method=payment_method, deliver_method=deliver_method,requirements=requirements,
+                                                        body=body, tags=tags, phone=phone, wechat=wechat, errors=errors))
 
     # extract tags
     tags = cgi.escape(tags)
     tags_array = extract_tags(tags)
+    
+    # prepare for the post, TODO: this should be done in DAO class
+    post = {"title": title,
+                "author": username,
+                "body": body,
+                "price": price,
+                "deliver_time":deliver_time,
+                "payment_method": payment_method, 
+                "deliver_method": deliver_method,
+                "requirements": requirements,
+                "body": body,
+                "tags": tags_array,
+                "phone": phone,
+                "wechat": wechat}
 
-    # looks like a good entry, insert it escaped
-    #escaped_post = cgi.escape(post, quote=True)
-
-    # substitute some <p> for the paragraph breaks
-    #newline = re.compile('\r?\n')
-    #formatted_post = newline.sub("<p>", escaped_post)
-
-    permalink = posts.insert_entry(title, body, tags_array, username)
+    permalink = posts.insert_entry(post)
 
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)

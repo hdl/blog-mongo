@@ -33,29 +33,19 @@ class BlogPostDAO:
         self.posts = database.posts
 
     # inserts the blog entry and returns a permalink for the entry
-    def insert_entry(self, title, post, tags_array, author):
-        print "inserting blog entry", title
-
-        # fix up the permalink to not include whitespace
-
-        #exp = re.compile('\W') # match anything not alphanumeric
-        #whitespace = re.compile('\s')
-        #permalink = whitespace.sub("_",title)
-        #permalink = exp.sub('', temp_title)
-        # Build a new post
-        post = {"title": title,
-                "author": author,
-                "body": post,
-                "permalink":"a-copy-of-id",
-                "tags": tags_array,
-                "comments": [],
-                "date": datetime.datetime.utcnow()}
+    def insert_entry(self, post):
+        print "inserting blog entry", post["title"]
+        
+        # add addition info
+        post["permalink"]= "a-copy-of-id"
+        post["comments"]= []
+        post["date"]= datetime.datetime.utcnow()
 
         # now insert the post
         try:
             post_id = self.posts.insert(post)
             print "Inserting the post"
-            #update permalink to _id
+            #update permalink to _id, TODO: optimize to 1 time database operations
             self.posts.update({"_id": post_id}, {"$set": {"permalink": str(post_id)}});
         except:
             print "Error inserting post"
