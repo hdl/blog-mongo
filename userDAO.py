@@ -76,6 +76,7 @@ class UserDAO:
     def add_user(self, email, password, username):
         password_hash = self.make_pw_hash(password)
 
+        #TODO: also need to guarantee unique user name
         user = {'_id': email, 'password': password_hash, 'username':username}
 
         try:

@@ -82,6 +82,8 @@ def show_post(permalink="notfound"):
 
     print "about to query on permalink = ", permalink
     post = posts.get_post_by_permalink(permalink)
+    #it's possible that new keys are added but old post don't have it: keyError.
+    add_new_keys(post)
 
     if post is None:
         bottle.redirect("/post_not_found")
@@ -164,24 +166,14 @@ def get_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("newpost_template", dict(post=None, username=username), errors="")
+    return bottle.template("editpost_template", dict(post=None, username=username, errors="", type="newpost"))
 
 #
 # Post handler for setting up a new post.
 # Only works for logged in user.
 @bottle.post('/newpost')
 def post_newpost():
-    # role = bottle.request.forms.get("role")
-    # title = bottle.request.forms.get("subject")
-    # body = bottle.request.forms.get("body")
-    # tags = bottle.request.forms.get("tags")
-    # price = bottle.request.forms.get("price")
-    # deliver_time = bottle.request.forms.get("deliver_time")
-    # payment_method = bottle.request.forms.get("payment_method")
-    # deliver_method = bottle.request.forms.get("deliver_method")
-    # requirements = bottle.request.forms.get("requirements")
-    # phone = bottle.request.forms.get("phone")
-    # wechat = bottle.request.forms.get("wechat")
+
     post = bottle.request.forms
 
     cookie = bottle.request.get_cookie("session")
@@ -190,20 +182,24 @@ def post_newpost():
         bottle.redirect("/login")
 
     errors=''
-    if "title" not in post.keys():
-        errors += 'Need a title !\n'
-    if "deliver_time" not in post.keys():
-        errors += "When do you want to eat!\n"
-    if "price" not in post.keys():
-        errors += "Price ???\n"
+    try:
+        if post["title"] == "":
+            errors += 'Need a title !\n'
+        if post["deliver_time"] == "":
+            errors += "When do you want to eat!\n"
+        if post["price"] == "":
+            errors += "Price ???\n"
+    except:
+        errors += "Key Error!"
+
     if errors is not '':
-        return bottle.template("newpost_template", dict(post=post, errors=errors, username=username))
+        return bottle.template("editpost_template", dict(post=post, errors=errors, username=username, type="newpost"))
 
 
     # prepare for the post, only copy valid data in case of spam into DB
     valid_post = {}
     valid_post["author"] = username
-    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat"]
+    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
     for key in valid_keys_list:
         valid_post[key] = post[key]
 
@@ -239,7 +235,7 @@ def update_get(permalink="notfound"):
     if post is None:
         bottle.redirect("/post_not_found")
 
-    return bottle.template("updatepost_template", dict(post=post, errors="", username=username))
+    return bottle.template("editpost_template", dict(post=post, errors="", username=username, type="updatepost"))
 
 @bottle.post("/updatepost/<permalink>")
 def update_post(permalink="notfound"):
@@ -250,20 +246,25 @@ def update_post(permalink="notfound"):
 
     if username is None:
         bottle.redirect("/login")
+
     errors=''
-    if "title" not in post.keys():
-        errors += 'Need a title !\n'
-    if "deliver_time" not in post.keys():
-        errors += "When do you want to eat!\n"
-    if "price" not in post.keys():
-        errors += "Price ???\n"
+    try:
+        if post["title"] == "":
+            errors += 'Need a title !\n'
+        if post["deliver_time"] == "":
+            errors += "When do you want to eat!\n"
+        if post["price"] == "":
+            errors += "Price ???\n"
+    except:
+        errors += "Key Error!"
+
     if errors is not '':
-        return bottle.template("update_template", dict(post=post, errors=errors, username=username))
+        return bottle.template("editpost_template", dict(post=post, errors=errors, username=username, tpye="updatepost"))
 
     # prepare for the post, only copy valid data in case of spam into DB
     valid_post = {}
     valid_post["author"] = username
-    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat"]
+    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
     for key in valid_keys_list:
         valid_post[key] = post[key]
 
@@ -298,7 +299,7 @@ def process_login():
     user_record = users.validate_login(email, password)
     if user_record:
         # email is stored in the user collection in the _id key
-        session_id = sessions.start_session(user_record['_id'])
+        session_id = sessions.start_session(user_record['_id'], user_record['username'])
 
         if session_id is None:
             bottle.redirect("/internal_error")
@@ -357,7 +358,7 @@ def process_signup():
             return bottle.template("signup", dict(username=username, email=email,
                                     errors=errors))
 
-        session_id = sessions.start_session(username)
+        session_id = sessions.start_session(email, username)
         print session_id
         bottle.response.set_cookie("session", session_id)
         bottle.redirect("/welcome")
@@ -417,8 +418,11 @@ def validate_signup(email, password, verify, username):
         if not EMAIL_RE.match(email):
             errors += "invalid email address<br>"
     return errors
-
-
+def add_new_keys(post):
+    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
+    for key in valid_keys_list:
+        if key not in post.keys():
+            post[key] = ""
 
 connection_string = "mongodb://localhost"
 connection = pymongo.MongoClient(connection_string)

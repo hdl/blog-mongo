@@ -18,12 +18,13 @@
     <p>角色 : {{post['role']}}</p>
     <p>期待价格 : {{post['price']}}</p>
     <p>吃饭时间 : {{post['deliver_time']}}</p>
+    <p>类型 : {{post['category']}}</p>
     <p>支付方式 : {{post['payment_method']}}</p>
     <p>Deliver方式 : {{post['deliver_method']}}</p>
     <p>特殊要求 : {{post['requirements']}}</p>
     <p>详细描述 : </p>
     <div>{{!post['body']}}</div>
-    <a class="btn btn-primary" href="/updatepost/{{post['permalink']}}">Update Post <span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-primary" href="/updatepost/{{post['permalink']}}">Edit Post <span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-danger" href="/removepost/{{post['permalink']}}">Remove Post <span class="glyphicon glyphicon-trash"></span></a>
 
     <hr>

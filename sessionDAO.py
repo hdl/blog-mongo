@@ -32,10 +32,10 @@ class SessionDAO:
 
     # will start a new session id by adding a new document to the sessions collection
     # returns the sessionID or None
-    def start_session(self, username):
+    def start_session(self, email, username):
 
         session_id = self.get_random_str(32)
-        session = {'username': username, '_id': session_id}
+        session = {"email" : email, 'username': username, '_id': session_id}
 
         try:
             self.sessions.insert(session, safe=True)
