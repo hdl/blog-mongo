@@ -2,7 +2,7 @@
 %include('header.tpl', html_title='Welcome')
 
 <body>
-    Welcome {{username}}
+Welcome {{username}}
 <p>
 <ul>
 <li><a href="/">北美蹭饭网 首页</a></li>
@@ -13,6 +13,6 @@
 </li>
 
 
-  </body>
+</body>
 
 %include('footer.tpl')
