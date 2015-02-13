@@ -28,7 +28,7 @@ import re
 
 
 
-__author__ = 'aje'
+__author__ = 'Ze Mao'
 
 
 # General Discussion on structure. This program implements a blog. This file is the best place to start to get
@@ -164,65 +164,50 @@ def get_newpost():
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("newpost_template", dict(role="guest", subject="", price="", deliver_method="", deliver_time="", 
-        payment_method="", requirements="", body = "", errors="", tags="", username=username),
-        phone="", wechat="")
+    return bottle.template("newpost_template", dict(post=None, username=username), errors="")
 
 #
 # Post handler for setting up a new post.
 # Only works for logged in user.
 @bottle.post('/newpost')
 def post_newpost():
-    role = bottle.request.forms.get("role")
-    title = bottle.request.forms.get("subject")
-    body = bottle.request.forms.get("body")
-    tags = bottle.request.forms.get("tags")
-    price = bottle.request.forms.get("price")
-    deliver_time = bottle.request.forms.get("deliver_time")
-    payment_method = bottle.request.forms.get("payment_method")
-    deliver_method = bottle.request.forms.get("deliver_method")
-    requirements = bottle.request.forms.get("requirements")
-    phone = bottle.request.forms.get("phone")
-    wechat = bottle.request.forms.get("wechat")
-    
-    
+    # role = bottle.request.forms.get("role")
+    # title = bottle.request.forms.get("subject")
+    # body = bottle.request.forms.get("body")
+    # tags = bottle.request.forms.get("tags")
+    # price = bottle.request.forms.get("price")
+    # deliver_time = bottle.request.forms.get("deliver_time")
+    # payment_method = bottle.request.forms.get("payment_method")
+    # deliver_method = bottle.request.forms.get("deliver_method")
+    # requirements = bottle.request.forms.get("requirements")
+    # phone = bottle.request.forms.get("phone")
+    # wechat = bottle.request.forms.get("wechat")
+    post = bottle.request.forms
+
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
         bottle.redirect("/login")
 
     errors=''
-    if title == "": 
-        errors += 'Need a tile name!\n'
-    if deliver_time == "":
+    if "title" not in post.keys():
+        errors += 'Need a title !\n'
+    if "deliver_time" not in post.keys():
         errors += "When do you want to eat!\n"
-    if price == "":
+    if "price" not in post.keys():
         errors += "Price ???\n"
     if errors is not '':
-        return bottle.template("newpost_template", dict(role=role, subject=title, username=username, price=price, deliver_time=deliver_time,
-                                                        payment_method=payment_method, deliver_method=deliver_method,requirements=requirements,
-                                                        body=body, tags=tags, phone=phone, wechat=wechat, errors=errors))
+        return bottle.template("newpost_template", dict(post=post, errors=errors, username=username))
 
-    # extract tags
-    tags = cgi.escape(tags)
-    tags_array = extract_tags(tags)
-    
-    # prepare for the post, TODO: this should be done in DAO class
-    post = {    "role":role,
-                "title": title,
-                "author": username,
-                "body": body,
-                "price": price,
-                "deliver_time":deliver_time,
-                "payment_method": payment_method, 
-                "deliver_method": deliver_method,
-                "requirements": requirements,
-                "body": body,
-                "tags": tags_array,
-                "phone": phone,
-                "wechat": wechat}
 
-    permalink = posts.insert_entry(post)
+    # prepare for the post, only copy valid data in case of spam into DB
+    valid_post = {}
+    valid_post["author"] = username
+    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat"]
+    for key in valid_keys_list:
+        valid_post[key] = post[key]
+
+    permalink = posts.insert_entry(valid_post)
 
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
@@ -253,67 +238,36 @@ def update_get(permalink="notfound"):
 
     if post is None:
         bottle.redirect("/post_not_found")
-    tags = ""
-    for tag in post["tags"]:
-        tags = tags + "," + tag
-    tags = tags[1:]
-    return bottle.template("updatepost_template", dict(role=post['role'], subject=post['title'], username=post['author'], price=post['price'], 
-                                                        deliver_time=post['deliver_time'],payment_method=post['payment_method'], deliver_method=post['deliver_method'],requirements=post['requirements'],
-                                                        body=post['body'], tags=post['tags'], phone=post['phone'], wechat=post['wechat'], permalink=permalink, errors=""))
 
-@bottle.post("/updatepost")
-def update_post():
-    role = bottle.request.forms.get("role")
-    title = bottle.request.forms.get("subject")
-    body = bottle.request.forms.get("body")
-    tags = bottle.request.forms.get("tags")
-    price = bottle.request.forms.get("price")
-    deliver_time = bottle.request.forms.get("deliver_time")
-    payment_method = bottle.request.forms.get("payment_method")
-    deliver_method = bottle.request.forms.get("deliver_method")
-    requirements = bottle.request.forms.get("requirements")
-    phone = bottle.request.forms.get("phone")
-    wechat = bottle.request.forms.get("wechat")
-    permalink = bottle.request.forms.get("permalink")
-    
-    
+    return bottle.template("updatepost_template", dict(post=post, errors="", username=username))
+
+@bottle.post("/updatepost/<permalink>")
+def update_post(permalink="notfound"):
+    post = bottle.request.forms
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
+    permalink = cgi.escape(permalink)
+
     if username is None:
         bottle.redirect("/login")
-
     errors=''
-    if title == "": 
-        errors += 'Need a tile name!\n'
-    if deliver_time == "":
+    if "title" not in post.keys():
+        errors += 'Need a title !\n'
+    if "deliver_time" not in post.keys():
         errors += "When do you want to eat!\n"
-    if price == "":
+    if "price" not in post.keys():
         errors += "Price ???\n"
     if errors is not '':
-        return bottle.template("newpost_template", dict(role=role, subject=title, username=username, price=price, deliver_time=deliver_time,
-                                                        payment_method=payment_method, deliver_method=deliver_method,requirements=requirements,
-                                                        body=body, tags=tags, phone=phone, wechat=wechat, permalink=permalink, errors=errors))
+        return bottle.template("update_template", dict(post=post, errors=errors, username=username))
 
-    # extract tags
-    tags = cgi.escape(tags)
-    tags_array = extract_tags(tags)
-    
-    # prepare for the post, TODO: this should be done in DAO class
-    post = {    "role":role,
-                "title": title,
-                "author": username,
-                "body": body,
-                "price": price,
-                "deliver_time":deliver_time,
-                "payment_method": payment_method, 
-                "deliver_method": deliver_method,
-                "requirements": requirements,
-                "body": body,
-                "tags": tags_array,
-                "phone": phone,
-                "wechat": wechat}
+    # prepare for the post, only copy valid data in case of spam into DB
+    valid_post = {}
+    valid_post["author"] = username
+    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat"]
+    for key in valid_keys_list:
+        valid_post[key] = post[key]
 
-    posts.update_entry(permalink, post)
+    posts.update_entry(permalink, valid_post)
 
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
