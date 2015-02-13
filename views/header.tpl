@@ -9,6 +9,8 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <!-- include libries(jQuery, fontawesome) -->
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+  <!-- 自己做的，要改-->
+  <link href="/static/css/my.css" rel="stylesheet">
 
 </head>
 

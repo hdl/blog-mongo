@@ -3,8 +3,9 @@
 
 
 <body>
-    %include('nav.tpl')
 
+    %include('nav.tpl')
+    <div class="container" >
     <h2>
         <a href="#">{{post['title']}}</a>
     </h2>
@@ -24,6 +25,8 @@
     <p>特殊要求 : {{post['requirements']}}</p>
     <p>详细描述 : </p>
     <div>{{!post['body']}}</div>
+
+    <hr>
     <a class="btn btn-primary" href="/updatepost/{{post['permalink']}}">Edit Post <span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-danger" href="/removepost/{{post['permalink']}}">Remove Post <span class="glyphicon glyphicon-trash"></span></a>
 
@@ -89,7 +92,7 @@
     <textarea name="commentBody" cols="60" rows="10">{{comment['body']}}</textarea><br>
     <input type="submit" value="Submit">
 </form>
-
+</div>
 </body>
 %include('footer.tpl')
 
