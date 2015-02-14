@@ -119,7 +119,19 @@ class BlogPostDAO:
     def add_guest_or_host(self, permalink, role, username):
 
         try:
-            last_error = self.posts.update({'permalink': permalink}, {'$push': {role: username}}, upsert=False,
+            last_error = self.posts.update({'permalink': permalink}, {'$addToSet': {role: username}}, upsert=True,
+                                           manipulate=False, safe=True)
+
+            return last_error['n']          # return the number of documents updated
+
+        except:
+            print "Could not update the collection, error"
+            print "Unexpected error:", sys.exc_info()[0]
+            return 0
+    def remove_guest_or_host(self, permalink, role, username):
+
+        try:
+            last_error = self.posts.update({'permalink': permalink}, {'$pull': {role: username}}, upsert=False,
                                            manipulate=False, safe=True)
 
             return last_error['n']          # return the number of documents updated

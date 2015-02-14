@@ -288,7 +288,12 @@ def update_post(permalink="notfound"):
         valid_post[key] = post[key]
 
     posts.update_entry(permalink, valid_post)
-
+    if valid_post["role"] == "guest":
+        posts.remove_guest_or_host(permalink, "host", username)
+        posts.add_guest_or_host(permalink, "guest", username)
+    elif valid_post["role"] == "host":
+        posts.remove_guest_or_host(permalink, "guest", username)
+        posts.add_guest_or_host(permalink, "host", username)
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
 
