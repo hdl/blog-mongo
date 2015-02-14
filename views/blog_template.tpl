@@ -32,7 +32,7 @@
          联系方式: 邮箱，电话，微信
        </div>
        <div class="col-md-4">
-         <h3><br></h3>
+         <br>
          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="@{{post['author']}}">约饭</button>
          <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
        </div>
@@ -56,9 +56,9 @@
        联系方式: 邮箱，电话，微信
      </div>
      <div class="col-md-4">
-       <h3><br></h3>
-       <a class="btn btn-success">勾搭</a>
-       <a class="btn btn-success" href="/post/{{post['permalink']}}">评论</a>
+       <br>
+       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="@{{post['author']}}">约饭</button>
+       <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
      </div>
    </div>
    <hr>
@@ -85,10 +85,10 @@
             <label for="message-text" class="control-label">Message:</label>
             <textarea class="form-control" id="message-text"></textarea>
           </div>
-                <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
+          </div>
         </form>
       </div>
 
