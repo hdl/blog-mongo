@@ -115,6 +115,19 @@ class BlogPostDAO:
             l.append(post)
 
         return l
+        # add a comment to a particular blog post
+    def add_guest_or_host(self, permalink, role, username):
+
+        try:
+            last_error = self.posts.update({'permalink': permalink}, {'$push': {role: username}}, upsert=False,
+                                           manipulate=False, safe=True)
+
+            return last_error['n']          # return the number of documents updated
+
+        except:
+            print "Could not update the collection, error"
+            print "Unexpected error:", sys.exc_info()[0]
+            return 0
     # returns an array of num_posts posts, reverse ordered, filtered by tag
     def get_posts_by_tag(self, tag, num_posts):
 

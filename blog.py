@@ -223,7 +223,7 @@ def post_newpost():
         valid_post[key] = post[key]
 
     permalink = posts.insert_entry(valid_post)
-
+    posts.add_guest_or_host(permalink, valid_post['role'], username)
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
 
