@@ -94,9 +94,9 @@ def user_verify():
     verify_result = users.user_email_verify(bottle.request.query['email'],bottle.request.query['key'])
 
     if verify_result is False:
-        return bottle.template('error_template', dict(errors="Invalid Verification"))
+        return bottle.template('error_template', dict(error="Invalid Email Verification"))
     else:
-        bottle.redirect("/login")
+        return bottle.template("login", dict(email=bottle.request.query['email'], password="", errors="", verify="Successfully Verified, Please Log in"))
 
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')
@@ -331,9 +331,7 @@ def present_signup():
 # displays the initial blog login form
 @bottle.get('/login')
 def present_login():
-    return bottle.template("login",
-                           dict(username="", email="", password="",
-                                errors=""))
+    return bottle.template("login", dict(email="", password="", errors="", verify=""))
 
 # handles a login request
 @bottle.post('/login')
@@ -362,9 +360,7 @@ def process_login():
         bottle.redirect("/welcome")
 
     else:
-        return bottle.template("login",
-                               dict(email=email, password="",
-                                    errors="Invalid Login"))
+        return bottle.template("login",dict(email=email, password="",errors="Invalid Login", verify=""))
 
 
 @bottle.get('/internal_error')

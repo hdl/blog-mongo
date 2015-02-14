@@ -20,6 +20,9 @@
       %if (errors != ""):
       <div class="alert alert-danger" role="alert">{{errors}}</div>
       %end
+      %if (verify != ""):
+      <div class="alert alert-success" role="alert">{{verify}}</div>
+      %end
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 
