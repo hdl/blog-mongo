@@ -81,7 +81,7 @@ def user_home():
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
-        bottle.redirect("/login")
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
     user = users.get_user_by_username(username)
 
     guest_list = posts.get_posts_for_profile(username, "guest")
