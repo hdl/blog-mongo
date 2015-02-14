@@ -15,11 +15,11 @@
       </ul>
     </nav>
 
-    <h2>Today: </h2>         
+    <h2>Today: </h2>
     <div id="guest">
       %for post in guest_posts:
       <div class="row">
-        <div class="col-md-4"> 
+        <div class="col-md-4">
          <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a><br></h3>
          价钱: {{post['price']}}<br>
          吃饭时间: {{post['deliver_time']}}<br>
@@ -31,9 +31,9 @@
          特殊要求: {{post['requirements']}} <br>
          联系方式: 邮箱，电话，微信
        </div>
-       <div class="col-md-4"> 
+       <div class="col-md-4">
          <h3><br></h3>
-         <a class="btn btn-success">勾搭</a> 
+         <a class="btn btn-success">约饭</a>
          <a class="btn btn-success" href="/post/{{post['permalink']}}">评论</a>
        </div>
      </div>
@@ -43,21 +43,21 @@
    <div id="host" style="display: none">
     %for post in host_posts:
     <div class="row">
-      <div class="col-md-4"> 
+      <div class="col-md-4">
        <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a><br></h3>
        价钱: {{post['price']}}<br>
        吃饭时间: {{post['deliver_time']}}<br>
        支付方式: {{post['payment_method']}}
      </div>
-     <div class="col-md-4"> 
+     <div class="col-md-4">
        <h3><br></h3>
        deliver方式: {{post['deliver_method']}}<br>
        特殊要求: {{post['requirements']}} <br>
        联系方式: 邮箱，电话，微信
      </div>
-     <div class="col-md-4"> 
+     <div class="col-md-4">
        <h3><br></h3>
-       <a class="btn btn-success">勾搭</a> 
+       <a class="btn btn-success">勾搭</a>
        <a class="btn btn-success" href="/post/{{post['permalink']}}">评论</a>
      </div>
    </div>
