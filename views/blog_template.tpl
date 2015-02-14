@@ -3,7 +3,7 @@
 <body>
   <div class="container">
     <!-- Nav tabs -->
-    <ul class="nav nav-pills" role="tablist">
+    <ul class="nav nav-pills" role="tablist" style="margin-left:40%" align="center">
       <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">要蹭饭的人</a></li>
       <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">能做饭的人</a></li>
     </ul>
@@ -11,7 +11,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane fade in active" id="home">
-        <h2>Today</h2>
+        <h3><span class="label label-primary">Today</span></h3>
         %for post in guest_posts:
         <div class="row">
           <div class="col-md-4">
@@ -36,7 +36,7 @@
        %end
      </div>
      <div role="tabpanel" class="tab-pane fade" id="profile">
-      <h2>Today</h2>
+      <h3><span class="label label-primary">Today</span></h3>
       %for post in host_posts:
       <div class="row">
         <div class="col-md-4">
