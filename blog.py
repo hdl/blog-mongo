@@ -56,6 +56,31 @@ def blog_index():
 
     return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
 
+# This route is the main page of the blog
+@bottle.get('/user/profile/<profile_username>')
+def user_profile(profile_username=""):
+
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+
+    #show self
+    if profile_username=="":
+        profile_username = username
+
+
+    post_id_guest_list = users.get_posts_id_by_role(profile_username, "guest")
+    post_id_host_list = users.get_posts_id_by_role(profile_username, "host")
+    guest_list = []
+    host_list = []
+    for post_id in post_id_guest_list:
+        guest_list.append(posts.get_post_by_permalink(post_id))
+    for post_id in post_id_host_list:
+        host_list.append(posts.get_post_by_permalink(post_id))
+
+
+    return bottle.template('userprofile_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=profile_username, username=username))
+
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')
 def posts_by_tag(tag="notfound"):
@@ -199,6 +224,7 @@ def post_newpost():
     # prepare for the post, only copy valid data in case of spam into DB
     valid_post = {}
     valid_post["author"] = username
+    valid_post["status"] = 0 # 0:pending 1:complete
     valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
     for key in valid_keys_list:
         valid_post[key] = post[key]
@@ -208,7 +234,7 @@ def post_newpost():
     # now bottle.redirect to the blog permalink
     bottle.redirect("/post/" + permalink)
 
-# update a particular blog post
+# remove a particular blog post
 @bottle.get("/removepost/<permalink>")
 def remove_post(permalink="notfound"):
 

@@ -35,7 +35,7 @@ class BlogPostDAO:
     # inserts the blog entry and returns a permalink for the entry
     def insert_entry(self, post):
         print "inserting blog entry", post["title"]
-        
+
         # add addition info
         post["permalink"]= "a-copy-of-id"
         post["comments"]= []
@@ -123,11 +123,11 @@ class BlogPostDAO:
 
     # find a post corresponding to a particular permalink
     def get_post_by_permalink(self, permalink):
-
+        #TODO: can use id as key
         post = self.posts.find_one({'permalink': permalink})
 
         # XXX Final exam Question 4
-        # 
+        #
         # if you store the likes value in the way the template expects
         # and how is implied by by the fixup code below, you don't need to make a change here
 
@@ -172,7 +172,7 @@ class BlogPostDAO:
     def increment_likes(self, permalink, comment_ordinal):
 
         #
-        # XXX Final exam 
+        # XXX Final exam
         # Work here. You need to update the num_likes value in the comment being liked
         #
         self.posts.update({"permalink": permalink}, {"$inc": {"comments.%s.num_likes" % comment_ordinal: 1}})

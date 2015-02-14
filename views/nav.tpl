@@ -6,7 +6,7 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
-      	<li><a href="/userhome">{{username}}</a></li>
+      	<li><a href="/user/profile/{{username}}">{{username}}</a></li>
         <li><a href="/newpost">我要发布！</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

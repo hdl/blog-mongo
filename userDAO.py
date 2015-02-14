@@ -89,5 +89,13 @@ class UserDAO:
             return False
 
         return True
+    def get_posts_id_by_role(self, profile_username, role):
+        user = self.users.find_one({'username': profile_username})
+        post_id_list=[]
+
+        if user is not None:
+            post_id_list = user[role]
+
+        return post_id_list
 
 
