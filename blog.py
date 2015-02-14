@@ -96,7 +96,7 @@ def user_verify():
     if verify_result is False:
         return bottle.template('error_template', dict(error="Invalid Email Verification"))
     else:
-        return bottle.template("login", dict(email=bottle.request.query['email'], password="", errors="", verify="Successfully Verified, Please Log in"))
+        return bottle.template("login", dict(email=bottle.request.query['email'], password="", errors="", verify="Successfully Verified! Please Log in."))
 
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')

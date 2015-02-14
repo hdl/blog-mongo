@@ -8,13 +8,13 @@
       <li id="host_li" ><a href="#" onclick="hostFunction();" >做饭史</a></li>
     </ul>
 
-    <h3>{{username}}</h3>
-    <hr>
+    <h3>{{username}}
     %if user['status'] == 0:
-    <h5>Email Verification Required.</h5>
+    <small>Email Verification Required.</small>
     %else:
-    <h5>Email Verification Done</h5>
+    <small>Email Verification Done</small>
     %end
+    </h3>
     <hr>
     <div id="guest">
       <table class="table table-striped">
