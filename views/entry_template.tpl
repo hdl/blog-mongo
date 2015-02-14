@@ -10,7 +10,7 @@
         <a href="#">{{post['title']}}</a>
     </h2>
     <p class="lead">
-        By <a href="#">{{post['author']}}</a>
+        By <a href="/user/profile/{{post['author']}}">{{post['author']}}</a>
     </p>
     <p><span class="glyphicon glyphicon-time"></span> {{post['date']}}</p>
     <hr>
