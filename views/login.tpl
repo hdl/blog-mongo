@@ -6,7 +6,7 @@
 
   <div class="container">
 
-    <form class="form-signin" method="post">
+    <form class="form-signin" method="post" action="/login">
       %if (verify != ""):
       <div class="alert alert-success" role="alert">{{verify}}</div>
       %end
