@@ -7,6 +7,9 @@
   <div class="container">
 
     <form class="form-signin" method="post">
+      %if (verify != ""):
+      <div class="alert alert-success" role="alert">{{verify}}</div>
+      %end
       <h2 class="form-signin-heading">Sign in</h2>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" value="{{email}}" required autofocus>
