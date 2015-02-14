@@ -5,7 +5,7 @@
 
     <ul class="nav nav-pills" style="margin-left:40%" align="center">
       <li id="guest_li" class="active"><a href="#" onclick="guestFunction();">蹭饭史</a></li>
-      <li id="host_li" ><a href="#" onclick="hostFunction();" >做饭历</a></li>
+      <li id="host_li" ><a href="#" onclick="hostFunction();" >做饭史</a></li>
     </ul>
 
     <h3>{{profile_username}}</h3>

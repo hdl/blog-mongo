@@ -56,7 +56,7 @@ def blog_index():
 
     return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
 
-# This route is the main page of the blog
+
 @bottle.get('/user/profile/<profile_username>')
 def user_profile(profile_username=""):
 
@@ -73,6 +73,22 @@ def user_profile(profile_username=""):
     host_list = posts.get_posts_for_profile(profile_username, "host")
 
     return bottle.template('userprofile_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=profile_username, username=username))
+
+# This route is the main page of the blog
+@bottle.route('/user/home')
+def user_home():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+
+
+    guest_list = posts.get_posts_for_profile(username, "guest")
+    host_list = posts.get_posts_for_profile(username, "host")
+
+    return bottle.template('userprofile_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=username, username=username))
+
 
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')
