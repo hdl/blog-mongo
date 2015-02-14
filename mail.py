@@ -9,7 +9,7 @@ SMTP_PORT = 587
 SMTP_USERNAME = "cengfan.us@gmail.com"
 SMTP_PASSWORD = "1194w30thstapt2"
 
-EMAIL_FROM = "maoze365@gmail.com"
+EMAIL_FROM = "cengfan.us@gmail.com"
 
 def send_email(EMAIL_TO, EMAIL_SUBJECT, BODY):
     msg = MIMEText(BODY)
