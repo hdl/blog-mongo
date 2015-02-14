@@ -69,15 +69,8 @@ def user_profile(profile_username=""):
         profile_username = username
 
 
-    post_id_guest_list = users.get_posts_id_by_role(profile_username, "guest")
-    post_id_host_list = users.get_posts_id_by_role(profile_username, "host")
-    guest_list = []
-    host_list = []
-    for post_id in post_id_guest_list:
-        guest_list.append(posts.get_post_by_permalink(post_id))
-    for post_id in post_id_host_list:
-        host_list.append(posts.get_post_by_permalink(post_id))
-
+    guest_list = posts.get_posts_for_profile(profile_username, "guest")
+    host_list = posts.get_posts_for_profile(profile_username, "host")
 
     return bottle.template('userprofile_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=profile_username, username=username))
 
