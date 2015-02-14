@@ -21,6 +21,8 @@ import random
 import string
 import hashlib
 import pymongo
+from mail import *
+import urllib
 
 
 # The User Data Access Object handles all interactions with the User collection.
@@ -75,12 +77,13 @@ class UserDAO:
     # creates a new user in the users collection
     def add_user(self, email, password, username):
         password_hash = self.make_pw_hash(password)
-
+        verifiy_string = self.get_random_str(32)
         #TODO: also need to guarantee unique user name
-        user = {'_id': email, 'password': password_hash, 'username':username}
-
+        user = {'_id': email, 'password': password_hash, 'username':username, "status":0, "verifiy_string":verifiy_string} #0:unverify #verified
+        url_dict = {'email':email, 'key':verifiy_string}
         try:
             self.users.insert(user, safe=True)
+            send_email(email, "Email Verification", "http://cengfan.us/user/verify?"+urllib.urlencode(url_dict))
         except pymongo.errors.OperationFailure:
             print "oops, mongo error"
             return False
@@ -99,4 +102,24 @@ class UserDAO:
         except:
             post_id_list = []
         return post_id_list
+    def get_random_str(self, num_chars):
+        random_string = ""
+        for i in range(num_chars):
+            random_string = random_string + random.choice(string.ascii_letters)
+        return random_string
+        # returns an array of num_posts posts, reverse ordered
+    def get_user_by_username(self, username):
+        user = self.users.find_one({'username': username})
+        return user
+    def get_user_by_email(self, email):
+        user = self.users.find_one({'_id': email})
+        return user
+    def user_email_verify(self, email, verifiy_string):
+        user = self.users.find_one({'_id': email})
+        if user["verifiy_string"] == verifiy_string:
+            self.users.update({"_id": email}, {"$set": {"status": 1}});
+            return True
+        else:
+            return False
+
 

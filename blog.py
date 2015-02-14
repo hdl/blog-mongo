@@ -82,13 +82,21 @@ def user_home():
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
         bottle.redirect("/login")
-
+    user = users.get_user_by_username(username)
 
     guest_list = posts.get_posts_for_profile(username, "guest")
     host_list = posts.get_posts_for_profile(username, "host")
 
-    return bottle.template('userprofile_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=username, username=username))
+    return bottle.template('userhome_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=username, username=username, user=user))
+# This route is the main page of the blog
+@bottle.get('/user/verify')
+def user_verify():
+    verify_result = users.user_email_verify(bottle.request.query['email'],bottle.request.query['key'])
 
+    if verify_result is False:
+        return bottle.template('error_template', dict(errors="Invalid Verification"))
+    else:
+        bottle.redirect("/login")
 
 # The main page of the blog, filtered by tag
 @bottle.route('/tag/<tag>')
