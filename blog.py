@@ -1,4 +1,5 @@
 
+# -*- coding: utf-8 -*-
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
 #
@@ -25,6 +26,7 @@ import userDAO
 import bottle
 import cgi
 import re
+from mail import *
 
 
 
@@ -55,6 +57,7 @@ def blog_index():
     host_list = posts.get_posts_by_role("host", 10)
 
     return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
+
 
 
 @bottle.get('/user/profile/<profile_username>')
@@ -426,6 +429,19 @@ def present_welcome():
     return bottle.template("welcome", {'username': username})
 
 
+@bottle.route('/feedback')
+def blog_index():
+    return bottle.template('feedback_template', dict(username="", result=""))
+@bottle.post('/feedback')
+def blog_index():
+    name = bottle.request.forms.get("name")
+    email = bottle.request.forms.get("email")
+    message = bottle.request.forms.get("message")
+    error = send_email("maoze365@gmail.com", "来自"+name+"的反馈", email+"\n\n"+message)
+    if error=="" :
+        return bottle.template('feedback_template', dict(username="", result="Successfully Send. Thank you! :)"))
+    else:
+        return bottle.template('feedback_template', dict(username="", result="发送有点bug。。sorry。。"))
 
 # Helper Functions
 
