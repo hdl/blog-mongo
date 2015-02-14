@@ -93,9 +93,10 @@ class UserDAO:
         user = self.users.find_one({'username': profile_username})
         post_id_list=[]
 
-        if user is not None:
-            post_id_list = user[role]
-
+        try:
+            if user is not None:
+                post_id_list = user[role]
+        except:
+            post_id_list = []
         return post_id_list
-
 
