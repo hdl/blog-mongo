@@ -3,10 +3,12 @@
 <body>
   <div class="container">
     <!-- Nav tabs -->
+    <div class="span12 centered-pills">
     <ul class="nav nav-pills center-pills" role="tablist">
       <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">要蹭饭的人</a></li>
       <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">能做饭的人</a></li>
     </ul>
+    </div>
 
     <!-- Tab panes -->
     <div class="tab-content">
