@@ -33,7 +33,6 @@
       </div>
       <div class="form-group">
         <label for="price"><code>*</code> 期望价格</label>
-        <span class="input-group-addon">$</span>
         <input type="text" class="form-control" id="price" placeholder="可以是区间哦" name="price" value="{{post["price"] if post else ""}}">
       </div>
       <div class="form-group">
