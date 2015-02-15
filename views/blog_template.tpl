@@ -55,7 +55,7 @@
          特殊要求: {{post['requirements']}} <br>
          联系方式: 邮箱，电话，微信
        </div>
-       <div class="col-md-4">
+       <div class="col-md-4" style="text-align: right;">
          <br>
          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="@{{post['author']}}">约饭</button>
          <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
