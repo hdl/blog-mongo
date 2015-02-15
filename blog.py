@@ -360,7 +360,7 @@ def process_login():
         # revert to .11 to solve the problem.
         bottle.response.set_cookie("session", cookie)
 
-        bottle.redirect("/welcome")
+        bottle.redirect("/user/home")
 
     else:
         return bottle.template("login",dict(email=email, password="",errors="Invalid Login", verify=""))
@@ -382,7 +382,7 @@ def process_logout():
     bottle.response.set_cookie("session", "")
 
 
-    bottle.redirect("/signup")
+    bottle.redirect("/login")
 
 
 @bottle.post('/signup')
@@ -408,7 +408,7 @@ def process_signup():
         session_id = sessions.start_session(email, username)
         print session_id
         bottle.response.set_cookie("session", session_id)
-        bottle.redirect("/welcome")
+        bottle.redirect("/user/home")
     else:
         print "user did not validate in validate_signup()"
         return bottle.template("signup", dict(username=username, email=email,
