@@ -494,5 +494,5 @@ sessions = sessionDAO.SessionDAO(database)
 
 
 bottle.debug(True)
-bottle.run(host='', port=8082, reloader=True)         # Start the webserver running and wait for requests
+bottle.run(host='0.0.0.0', port=80, reloader=True, server='cherrypy')         # Start the webserver running and wait for requests
 
