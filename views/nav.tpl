@@ -26,8 +26,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/newpost">我想蹭饭</a></li>
-            <li><a href="/newpost">我能做饭</a></li>
+            <li><a href="/newpost?role=guest">我想蹭饭</a></li>
+            <li><a href="/newpost?role=host">我能做饭</a></li>
           </ul>
         </li>
         <li><a href="/user/message"><span class="glyphicon glyphicon-envelope"></span></a></li>

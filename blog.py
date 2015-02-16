@@ -205,13 +205,16 @@ def post_not_found():
 # Displays the form allowing a user to add a new post. Only works for logged in users
 @bottle.get('/newpost')
 def get_newpost():
-
+    try:
+        role_from_get = bottle.request.query['role']
+    except:
+        role_from_get = "guest"
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
         bottle.redirect("/login")
 
-    return bottle.template("editpost_template", dict(post=None, username=username, errors="", type="newpost"))
+    return bottle.template("editpost_template", dict(post=None, username=username, errors="", type="newpost", role_from_get=role_from_get))
 
 #
 # Post handler for setting up a new post.
@@ -268,7 +271,7 @@ def remove_post(permalink="notfound"):
 
 # update a particular blog post
 @bottle.get("/updatepost/<permalink>")
-def update_get(permalink="notfound"):
+def get_updatepost(permalink="notfound"):
 
     cookie = bottle.request.get_cookie("session")
 
@@ -284,7 +287,7 @@ def update_get(permalink="notfound"):
     return bottle.template("editpost_template", dict(post=post, errors="", username=username, type="updatepost"))
 
 @bottle.post("/updatepost/<permalink>")
-def update_post(permalink="notfound"):
+def post_updatepost(permalink="notfound"):
     post = bottle.request.forms
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in

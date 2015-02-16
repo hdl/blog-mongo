@@ -19,14 +19,29 @@
       %if (errors != ""):
       <div class="alert alert-danger" role="alert">{{errors}}</div>
       %end
-      %end
+
+
       <div class="form-group">
-        <label for="role"><code>*</code> 选择角色</label>
-        <select class="form-control" id="role" name="role">
-          <option value="guest">我想蹭饭</option>
-          <option value="host">我能做饭</option>
-        </select>
+        <label for="role"><code>*</code> 选择角色 </label>
+        %if defined('role_from_get'):
+          %if role_from_get == "guest":
+          <div class="radio"><label><input type="radio" name="role" id="role1" value="guest" checked>我想蹭饭</label></div>
+          <div class="radio"><label><input type="radio" name="role" id="role2" value="host">我能做饭</label></div>
+          %else:
+          <div class="radio"><label><input type="radio" name="role" id="role1" value="guest">我想蹭饭</label></div>
+          <div class="radio"><label><input type="radio" name="role" id="role2" value="host" checked>我能做饭</label></div>
+          %end
+        %else:
+          %if post==None or post['role'] == "guest":
+          <div class="radio"><label><input type="radio" name="role" id="role1" value="guest" checked>我想蹭饭</label></div>
+          <div class="radio"><label><input type="radio" name="role" id="role2" value="host">我能做饭</label></div>
+          %else:
+          <div class="radio"><label><input type="radio" name="role" id="role1" value="guest">我想蹭饭</label></div>
+          <div class="radio"><label><input type="radio" name="role" id="role2" value="host" checked>我能做饭</label></div>
+          %end
+        %end
       </div>
+
       <div class="form-group">
         <label for="title"><code>*</code> 标题</label>
         <input type="text" class="form-control" id="title" placeholder="快取一个吸引眼球的标题吧！" name="title" value="{{post["title"] if post else ""}}">
@@ -74,10 +89,10 @@
 
     </form>
     <form action="/upload" method="post" enctype="multipart/form-data">
-  Category:      <input type="text" name="category" />
-  Select a file: <input type="file" name="upload" />
-  <input type="submit" value="Start upload" />
-</form>
+      Category:      <input type="text" name="category" />
+      Select a file: <input type="file" name="upload" />
+      <input type="submit" value="Start upload" />
+    </form>
   </div>
   <p>
   </p>
