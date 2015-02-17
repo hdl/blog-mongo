@@ -80,6 +80,45 @@ def user_profile(profile_username=""):
 # This route is the main page of the blog
 @bottle.route('/user/home')
 def user_home():
+    bottle.redirect("/user/home/profile")
+
+
+@bottle.route('/user/home/profile')
+def user_home_profile():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+    return bottle.template('userhome_profile', dict(profile_username=username, username=username, user=user))
+
+
+@bottle.route('/user/home/account')
+def user_home_account():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+    return bottle.template('userhome_account', dict(username=username))
+
+@bottle.route('/user/home/emails')
+def user_home_emails():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+    return bottle.template('userhome_emails', dict(username=username, user=user))
+
+@bottle.route('/user/home/history')
+def user_home_history():
 
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
@@ -90,7 +129,10 @@ def user_home():
     guest_list = posts.get_posts_for_profile(username, "guest")
     host_list = posts.get_posts_for_profile(username, "host")
 
-    return bottle.template('userhome_template', dict(guest_posts=guest_list, host_posts=host_list, profile_username=username, username=username, user=user))
+    return bottle.template('userhome_history', dict(guest_posts=guest_list, host_posts=host_list, username=username, user=user))
+
+
+
 # This route is the main page of the blog
 @bottle.get('/user/verify')
 def user_verify():

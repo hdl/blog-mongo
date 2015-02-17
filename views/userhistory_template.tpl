@@ -10,7 +10,7 @@
 <!-- Tab panes -->
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="home">
-    <table class="table table-striped">
+    <table class="table">
       <thead>
         <tr>
           <th class="col-md-3">Title</th>
@@ -33,7 +33,7 @@
 
   </div>
   <div role="tabpanel" class="tab-pane fade" id="profile">
-    <table class="table table-striped">
+    <table class="table">
       <thead>
         <tr>
           <th class="col-md-3">Title</th>
