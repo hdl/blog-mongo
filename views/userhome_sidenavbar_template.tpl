@@ -8,6 +8,6 @@
             <li class="list-group-item"><a href="/user/home/messages">Messages</a></li>
             <li class="list-group-item"><a href="/user/home/appointments">Appointments</a></li>
             <li class="list-group-item"><a href="/user/home/settings">Settings</a></li>
-            <li class="list-group-item"><a href="/user/home/etc">etc</a></li>
+            <li class="list-group-item"><a href="/user/home/invite">邀请小伙伴</a></li>
           </ul>
         </div>

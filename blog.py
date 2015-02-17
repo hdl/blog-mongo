@@ -131,6 +131,17 @@ def user_home_history():
 
     return bottle.template('userhome_history', dict(guest_posts=guest_list, host_posts=host_list, username=username, user=user))
 
+@bottle.route('/user/home/invite')
+def user_home_invite():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+    return bottle.template('userhome_invite', dict(profile_username=username, username=username, user=user))
+
 
 
 # This route is the main page of the blog
