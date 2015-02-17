@@ -140,7 +140,26 @@ def user_home_invite():
         return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
     user = users.get_user_by_username(username)
 
-    return bottle.template('userhome_invite', dict(profile_username=username, username=username, user=user))
+    return bottle.template('userhome_invite', dict(profile_username=username, username=username, result=""))
+
+@bottle.post('/user/home/invite')
+def user_home_invite_post():
+    email = bottle.request.forms.get("invited_email")
+    message = bottle.request.forms.get("invite_message")
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)
+    print "------------"
+    print email
+    print message
+    print username
+    error = send_email(email, "Invitation from "+username, message)
+    print error
+    print "-------------"
+    if error=="" :
+        return bottle.template('userhome_invite', dict(profile_username=username, username=username, result="Successfully Send. Thank you! :)"))
+    else:
+        return bottle.template('userhome_invite', dict(profile_username=username, username=username, result="发送有点bug。。sorry。。"))
 
 
 
@@ -486,10 +505,10 @@ def present_welcome():
 
 
 @bottle.route('/feedback')
-def blog_index():
+def send_feedback():
     return bottle.template('feedback_template', dict(username="", result=""))
 @bottle.post('/feedback')
-def blog_index():
+def send_feedback_post():
     name = bottle.request.forms.get("name")
     email = bottle.request.forms.get("email")
     message = bottle.request.forms.get("message")
