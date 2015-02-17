@@ -44,6 +44,20 @@
 
             </table>
 
+            <label for="exampleInputAmount">Add an email address</label>
+            <form class="form-inline">
+              <div class="form-group">
+
+                <div class="input-group">
+                  <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Add</button>
+            </form>
+            <hr>
+
+            <span class="label label-success">Primary</span> : This is your login email.<p>
+            <span class="label label-default">Public</span> : Show email to your guest/host after you make an apponintment successfully.<p>
           </div>
         </div>
       </div>
