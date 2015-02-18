@@ -104,7 +104,7 @@ def user_home_account():
         return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
     user = users.get_user_by_username(username)
 
-    return bottle.template('userhome_account', dict(username=username, error=""))
+    return bottle.template('userhome_account', dict(username=username, error="", result=""))
 
 @bottle.route('/user/home/updatepassword')
 def user_home_updatepassword():
