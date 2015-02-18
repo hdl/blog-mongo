@@ -13,7 +13,7 @@
           <div class="panel-heading">Change Password</div>
           <div class="panel-body">
 
-            <form>
+            <form action="/user/home/updatepassword" method="post">
               <div class="form-group">
                 <label for="password">Old Password</label>
                 <input type="password" class="form-control" name="old_password" placeholder="Password">
@@ -28,6 +28,9 @@
                 <label for="password">Confirm new password</label>
                 <input type="password" class="form-control" name="confirm_password" placeholder="Password">
               </div>
+              %if (result != ""):
+              <div class="alert alert-danger" role="alert">{{errors}}</div>
+              %end
               <button type="submit" class="btn btn-primary">Update Password</button>
             </form>
 
@@ -39,22 +42,22 @@
           <div class="panel-body">
             Your account is currently an admin on these organizations: cengfanUS
             <p>
-            You must transfer ownership or delete these organizations before you can delete your user.
-            <p>
-            <form>
-              <button type="submit" class="btn btn-danger">Delete your account</button>
-            </form>
+              You must transfer ownership or delete these organizations before you can delete your user.
+              <p>
+                <form>
+                  <button type="submit" class="btn btn-danger">Delete your account</button>
+                </form>
+
+              </div>
+            </div>
 
           </div>
         </div>
-
       </div>
-    </div>
-  </div>
 
 
-</body>
+    </body>
 
-%include('footer.tpl')
+    %include('footer.tpl')
 
 

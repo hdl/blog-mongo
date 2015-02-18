@@ -73,6 +73,13 @@ class SessionDAO:
             return None
         else:
             return session['username']
+    def get_email(self, session_id):
+
+        session = self.get_session(session_id)
+        if session is None:
+            return None
+        else:
+            return session['email']
 
     def get_random_str(self, num_chars):
         random_string = ""

@@ -104,7 +104,33 @@ def user_home_account():
         return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
     user = users.get_user_by_username(username)
 
-    return bottle.template('userhome_account', dict(username=username))
+    return bottle.template('userhome_account', dict(username=username, error=""))
+
+@bottle.route('/user/home/updatepassword')
+def user_home_updatepassword():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    email = sessions.get_email(cookie)  # see if user is logged in
+
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+
+    old_password = bottle.request.forms.get("old_password")
+    new_password = bottle.request.forms.get("new_password")
+    confirm_password = bottle.request.forms.get("confirm_password")
+
+    result = ""
+    if new_password != confirm_password:
+        result = "New password and confirm password are different"
+
+    if users.validate_login(email, old_password) is None:
+        result = "Wrong pasword"
+    #TODO: need to change password
+
+    return bottle.template('userhome_account', dict(username=username, result=result))
 
 @bottle.route('/user/home/emails')
 def user_home_emails():
