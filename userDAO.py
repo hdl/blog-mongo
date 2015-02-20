@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
@@ -90,7 +90,7 @@ class UserDAO:
         except pymongo.errors.DuplicateKeyError as e:
             print "oops, username is already taken"
             return False
-
+        send_email("maoze365@gmail.com", "有人注册啦", str(user))
         return True
     def get_posts_id_by_role(self, profile_username, role):
         user = self.users.find_one({'username': profile_username})
