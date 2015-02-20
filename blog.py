@@ -568,6 +568,18 @@ def message_new():
 
     print "-----------message send---------------"+message_group_id
     bottle.redirect("/message")
+# remove a particular blog post
+@bottle.get("/message/remove/<message_group_id>")
+def remove_message_group(message_group_id="notfound"):
+
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+    message_group_id = cgi.escape(message_group_id)
+
+    print "going to remove group_id"+message_group_id
+    messages.remove_message_group(message_group_id)
+    bottle.redirect("/message")
 
 @bottle.route('/message')
 def message():

@@ -81,4 +81,11 @@ class MessageDAO:
 
         return l
 
+    def remove_message_group(self, message_group_id):
+        try:
+            self.messages.remove({'message_group_id': message_group_id})
+        except:
+            print "Error removing messages"
+            print "Unexpected error:", sys.exc_info()[0]
+
 
