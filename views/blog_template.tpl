@@ -45,29 +45,26 @@
        %end
      </div>
      <div role="tabpanel" class="tab-pane fade" id="profile">
-      <h3><span class="label label-primary">Today</span></h3>
+        <div class="row">
+          <div class="col-md-1"><div class="calendar">7 <em>Feb</em></div></div>
+          <div class="col-md-6"><h3>Feb 7 星期六</h3></div>
+        </div>
       %for post in host_posts:
-      <div class="row">
-        <div class="col-md-4">
-         <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a><br></h3>
-         价钱: {{post['price']}}<br>
-         吃饭时间: {{post['deliver_time']}}<br>
-         支付方式: {{post['payment_method']}}
+        <div class="row">
+          <div class="col-md-6 col-md-offset-1">
+           <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h3>
+           <span class="label label-primary">价钱:{{post['price']}}</span>
+           <span class="label label-primary">吃饭时间:{{post['deliver_time']}}</span>
+           <span class="label label-primary">支付方式:{{post['payment_method']}}</span>
+           <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
+         </div>
+         <div class="col-md-3 col-md-offset-1">
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
+           <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
+         </div>
        </div>
-       <div class="col-md-4">
-         <h3><br></h3>
-         deliver方式: {{post['deliver_method']}}<br>
-         特殊要求: {{post['requirements']}} <br>
-         联系方式: 邮箱，电话，微信
-       </div>
-       <div class="col-md-4" style="text-align: right;">
-         <br>
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
-         <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
-       </div>
-     </div>
-     <hr>
-     %end
+       <hr>
+       %end
    </div>
  </div>
 
