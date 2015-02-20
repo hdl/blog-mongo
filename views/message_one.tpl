@@ -11,10 +11,10 @@
       </div>
       <div class="col-md-9">
         <div class="panel panel-default">
-          <div class="panel-heading">Message</div>
+          <div class="panel-heading">查看对话</div>
           <div class="panel-body">
-            %include('message_compose.tpl')
-            %include('message_list.tpl', is_group=0)
+            %include('message_reply.tpl')
+            %include('message_list.tpl', is_group=1)
           </div>
         </div>
       </div>

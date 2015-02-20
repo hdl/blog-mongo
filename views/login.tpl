@@ -20,6 +20,10 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
+      <div>
+        <a href="/forget"> Forget Password?</a>
+        <a class="pull-right" href="/signup">Sign Up<p></a>
+      </div>
       %if (errors != ""):
       <div class="alert alert-danger" role="alert">{{errors}}</div>
       %end

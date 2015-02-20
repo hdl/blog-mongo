@@ -60,6 +60,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/feedback">Feedback</a></li>
+        <li><a href="/signin"><strong>注册</strong></a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span><span class="caret"></span></a>
@@ -70,7 +71,7 @@
         </li>
         <li><a href="/user/message"><span class="glyphicon glyphicon-envelope"></span></a></li>
         <li><a href="/user/setting"><span class="glyphicon glyphicon-cog"></span></a></li>
-        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span></a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->

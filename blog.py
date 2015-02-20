@@ -563,7 +563,7 @@ def message_new():
     for key in valid_keys_list:
         valid_message[key] = post[key]
 
-    message_group_id = messages.new_message(message=valid_message, message_group_id="")
+    message_group_id = messages.new_message(message=valid_message)
 
     print "-----------message send---------------"+message_group_id
     bottle.redirect("/")
@@ -579,6 +579,58 @@ def message():
     message_list = messages.get_messages_by_from_or_to(username)
 
     return bottle.template('message', dict(message_list=message_list, username=username))
+
+@bottle.get("/message/<message_group_id>")
+def message_one(message_group_id="notfound"):
+
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+
+    message_group_id = cgi.escape(message_group_id)
+
+    message_list = messages.get_messages_by_message_group_id(message_group_id)
+    if username==message_list[0]['from']:
+        reply_to=message_list[0]['to']
+    else:
+        reply_to=message_list[0]['from']
+    return bottle.template('message_one', dict(message_list=message_list, username=username, reply_to=reply_to))
+
+
+@bottle.post("/message/<message_group_id>")
+def message_one(message_group_id="notfound"):
+
+    cookie = bottle.request.get_cookie("session")
+
+    username = sessions.get_username(cookie)
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+
+    message_group_id = cgi.escape(message_group_id)
+
+    #process message
+    post = bottle.request.forms
+
+    valid_message = {}
+    valid_message["from"] = username
+    valid_message["message_group_id"] = message_group_id
+    valid_message["status"] = 1 #this is the initial message, following message is 1. They share same message_group_id
+    valid_keys_list = ["to", "body"]
+    for key in valid_keys_list:
+        valid_message[key] = post[key]
+
+    messages.new_message(message=valid_message)
+    #
+
+    message_list = messages.get_messages_by_message_group_id(message_group_id)
+    print message_list
+    if username==message_list[0]['from']:
+        reply_to=message_list[0]['to']
+    else:
+        reply_to=message_list[0]['from']
+    return bottle.template('message_one', dict(message_list=message_list, username=username, reply_to=reply_to))
 
 # Helper Functions
 

@@ -33,11 +33,11 @@ class MessageDAO:
     # creates a new message in the messages collection
     # if message_group_id is "", create a new message and message_group_id same with _id
     # if message_group_id is alreay filled, just insert it.
-    def new_message(self, message, message_group_id):
+    def new_message(self, message):
         print "create a new_message", message["from"]
 
         # add addition info
-        if message_group_id=="":
+        if message["message_group_id"]=="":
             message["message_group_id"]= ""
         message["date"]= datetime.datetime.utcnow()
         # now insert the message
@@ -45,7 +45,7 @@ class MessageDAO:
             _id = self.messages.insert(message)
             print "Insert initial message"
             #update permalink to _id, TODO: optimize to 1 time database operations
-            if message_group_id == "":
+            if message["message_group_id"] == "":
                 self.messages.update({"_id": _id}, {"$set": {"message_group_id": str(_id)}});
             return str(_id)
         except:
@@ -54,7 +54,8 @@ class MessageDAO:
 
     def get_messages_by_from_or_to(self, username):
         # get a list of message by (from=username or to=username) and status=0, which means initial msg
-        cursor = self.messages.find().sort('date', direction=-1)
+        #cursor = self.messages.find({"$or":[{"from":username}, {"to":username}]}).sort('date', direction=-1)
+        cursor = self.messages.find({"status":0}).sort('date', direction=-1)
         l = []
 
         for message in cursor:
@@ -66,7 +67,18 @@ class MessageDAO:
                 continue
 
         return l
+    def get_messages_by_message_group_id(self, message_group_id):
+        cursor = self.messages.find({'message_group_id': message_group_id}).sort('date', direction=-1)
+        l = []
 
+        for message in cursor:
+            try:
+                message['date'] = message['date'].strftime("%A, %B %d %Y at %I:%M%p") # fix up date
+                l.append(message)
+            except:
+                print "key error in message ",str(message['_id'])
+                continue
 
+        return l
 
 
