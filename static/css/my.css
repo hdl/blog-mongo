@@ -4,12 +4,11 @@
 .centered-pills a { float:left; }
 
 .container {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 3%;
 }
 
 .index {
-  padding-left: 140px;
+  padding-left: 10%;
 }
 .user_name{
     font-size:14px;
