@@ -558,6 +558,7 @@ def message_new():
 
     valid_message = {}
     valid_message["from"] = username
+    valid_message["message_group_id"]=""
     valid_message["status"] = 0 #this is the initial message, following message is 1. They share same message_group_id
     valid_keys_list = ["to", "body"]
     for key in valid_keys_list:
@@ -566,7 +567,7 @@ def message_new():
     message_group_id = messages.new_message(message=valid_message)
 
     print "-----------message send---------------"+message_group_id
-    bottle.redirect("/")
+    bottle.redirect("/message")
 
 @bottle.route('/message')
 def message():
