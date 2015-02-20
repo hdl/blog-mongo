@@ -28,6 +28,7 @@ import bottle
 import cgi
 import re
 from mail import *
+import datetime
 
 
 
@@ -304,7 +305,7 @@ def get_newpost():
 def post_newpost():
 
     post = bottle.request.forms
-
+    valid_post = {}
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
     if username is None:
@@ -314,19 +315,22 @@ def post_newpost():
     try:
         if post["title"] == "":
             errors += 'Need a title !\n'
-        if post["deliver_time"] == "":
-            errors += "When do you want to eat!\n"
         if post["price"] == "":
             errors += "Price ???\n"
     except:
         errors += "Key Error!"
+
+    try:
+        valid_post["deliver_time"]=datetime.datetime.strptime(post["deliver_time"], '%m/%d/%Y %I:%M %p')
+    except:
+        errors += "吃饭时间格式不对！"
 
     if errors is not '':
         return bottle.template("editpost_template", dict(post=post, errors=errors, username=username, type="newpost"))
 
 
     # prepare for the post, only copy valid data in case of spam into DB
-    valid_post = {}
+
     valid_post["author"] = username
     valid_post["status"] = 0 # 0:pending 1:complete
     valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]

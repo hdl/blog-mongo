@@ -41,9 +41,6 @@ class BlogPostDAO:
         post["comments"]= []
         post["date"]=datetime.datetime.utcnow()
 
-        tmp = post["deliver_time"]
-        del post["deliver_time"]
-        post["deliver_time"]=datetime.datetime.strptime(tmp, '%m/%d/%Y %I:%M %p')
         # now insert the post
         try:
             post_id = self.posts.insert(post)
