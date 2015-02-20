@@ -23,6 +23,7 @@ import pymongo
 import blogPostDAO
 import sessionDAO
 import userDAO
+import messageDAO
 import bottle
 import cgi
 import re
@@ -544,6 +545,41 @@ def send_feedback_post():
     else:
         return bottle.template('feedback_template', dict(username="", result="发送有点bug。。sorry。。"))
 
+#######################message####################
+@bottle.post('/message/new')
+def message_new():
+
+    post = bottle.request.forms
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+
+    valid_message = {}
+    valid_message["from"] = username
+    valid_message["status"] = 0 #this is the initial message, following message is 1. They share same message_group_id
+    valid_keys_list = ["to", "body"]
+    for key in valid_keys_list:
+        valid_message[key] = post[key]
+
+    message_group_id = messages.new_message(message=valid_message, message_group_id="")
+
+    print "-----------message send---------------"+message_group_id
+    bottle.redirect("/")
+
+@bottle.route('/message')
+def message():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+
+    message_list = messages.get_messages_by_from_or_to(username)
+
+    return bottle.template('message', dict(message_list=message_list, username=username))
+
 # Helper Functions
 
 #extracts the tag from the tags form element. an experience python programmer could do this in  fewer lines, no doubt
@@ -592,6 +628,7 @@ database = connection.blog
 posts = blogPostDAO.BlogPostDAO(database)
 users = userDAO.UserDAO(database)
 sessions = sessionDAO.SessionDAO(database)
+messages = messageDAO.MessageDAO(database)
 
 
 bottle.debug(True)

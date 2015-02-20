@@ -30,7 +30,7 @@
             <li><a href="/newpost?role=host">我能做饭</a></li>
           </ul>
         </li>
-        <li><a href="/user/message"><span class="glyphicon glyphicon-envelope"></span></a></li>
+        <li><a href="/message"><span class="glyphicon glyphicon-envelope"></span></a></li>
         <li><a href="/user/setting"><span class="glyphicon glyphicon-cog"></span></a></li>
         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span></a></li>
       </ul>

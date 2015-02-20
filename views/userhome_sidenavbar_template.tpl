@@ -5,7 +5,7 @@
             <li class="list-group-item"><a href="/user/home/account">Account Setting</a></li>
             <li class="list-group-item"><a href="/user/home/emails">Emails</a></li>
             <li class="list-group-item"><a href="/user/home/history">History</a></li>
-            <li class="list-group-item"><a href="/user/home/messages">Messages</a></li>
+            <li class="list-group-item"><a href="/message">Messages</a></li>
             <li class="list-group-item"><a href="/user/home/appointments">Appointments</a></li>
             <li class="list-group-item"><a href="/user/home/settings">Settings</a></li>
             <li class="list-group-item"><a href="/user/home/invite">邀请小伙伴</a></li>

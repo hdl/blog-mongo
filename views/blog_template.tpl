@@ -32,7 +32,7 @@
          </div>
          <div class="col-md-4" style="text-align: right;">
            <br>
-           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="@{{post['author']}}">约饭</button>
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
            <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
          </div>
        </div>
@@ -57,7 +57,7 @@
        </div>
        <div class="col-md-4" style="text-align: right;">
          <br>
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="@{{post['author']}}">约饭</button>
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
          <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
        </div>
      </div>
@@ -77,18 +77,18 @@
         <h4 class="modal-title" id="msgModalLabel">New message</h4>
       </div>
       <div class="modal-body">
-        <form action="/" method="post">
+        <form action="/message/new" method="post">
           <div class="form-group">
             <label for="recipient-name" class="control-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" name="to" id="recipient-name">
           </div>
           <div class="form-group">
             <label for="message-text" class="control-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea class="form-control" name="body" id="message-text"></textarea>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
+            <button type="submit" class="btn btn-primary">Send message</button>
           </div>
         </form>
       </div>
