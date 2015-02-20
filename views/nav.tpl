@@ -60,7 +60,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/feedback">Feedback</a></li>
-        <li><a href="/signin"><strong>注册</strong></a></li>
+        <li><a href="/signup"><strong>注册</strong></a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span><span class="caret"></span></a>
