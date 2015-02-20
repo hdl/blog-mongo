@@ -39,7 +39,7 @@ class BlogPostDAO:
         # add addition info
         post["permalink"]= "a-copy-of-id"
         post["comments"]= []
-        post["date"]= datetime.datetime.utcnow()
+        post["date"]=datetime.datetime.utcnow()
 
         # now insert the post
         try:
@@ -174,6 +174,7 @@ class BlogPostDAO:
         if post is not None:
             # fix up likes values. set to zero if data is not present for comments that have never been liked
             for comment in post['comments']:
+                comment['date'] = comment['date'].strftime("%A, %B %d %Y at %I:%M%p")
                 if 'num_likes' not in comment:
                     comment['num_likes'] = 0
 
@@ -190,12 +191,10 @@ class BlogPostDAO:
 
 
     # add a comment to a particular blog post
-    def add_comment(self, permalink, name, email, body):
+    def add_comment(self, permalink, author, body):
 
-        comment = {'author': name, 'body': body}
-
-        if (email != ""):
-            comment['email'] = email
+        comment = {'author': author, 'body': body}
+        comment["date"] = datetime.datetime.utcnow()
 
         try:
             last_error = self.posts.update({'permalink': permalink}, {'$push': {'comments': comment}}, upsert=False,
@@ -204,7 +203,7 @@ class BlogPostDAO:
             return last_error['n']          # return the number of documents updated
 
         except:
-            print "Could not update the collection, error"
+            print "Could not update the collection comment, error"
             print "Unexpected error:", sys.exc_info()[0]
             return 0
 

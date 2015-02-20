@@ -241,38 +241,20 @@ def show_post(permalink="notfound"):
 # used to process a comment on a blog post
 @bottle.post('/newcomment')
 def post_new_comment():
-    name = bottle.request.forms.get("commentName")
-    email = bottle.request.forms.get("commentEmail")
-    body = bottle.request.forms.get("commentBody")
+
+    body = bottle.request.forms.get("body")
     permalink = bottle.request.forms.get("permalink")
 
-    post = posts.get_post_by_permalink(permalink)
     cookie = bottle.request.get_cookie("session")
-
     username = sessions.get_username(cookie)
+    if username is None:
+        bottle.redirect("/login")
+    author = username
 
-    # if post not found, redirect to post not found error
-    if post is None:
-        bottle.redirect("/post_not_found")
-        return
+    # it all looks good, insert the comment into the blog post and redirect back to the post viewer
+    posts.add_comment(permalink, author, body)
 
-    # if values not good, redirect to view with errors
-
-    if name == "" or body == "":
-        # user did not fill in enough information
-
-        # init comment for web form
-        comment = {'name': name, 'email': email, 'body': body}
-
-        errors = "Post must contain your name and an actual comment."
-        return bottle.template("entry_template", dict(post=post, username=username, errors=errors, comment=comment))
-
-    else:
-
-        # it all looks good, insert the comment into the blog post and redirect back to the post viewer
-        posts.add_comment(permalink, name, email, body)
-
-        bottle.redirect("/post/" + permalink)
+    bottle.redirect("/post/" + permalink)
 
 # used to process a like on a blog post
 @bottle.post('/like')
