@@ -32,9 +32,9 @@
           <div class="col-md-6 col-md-offset-1">
            <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h3>
            <span class="label label-primary">价钱:{{post['price']}}</span>
-           <span class="label label-success">吃饭时间:{{post['deliver_time']}}</span>
-           <span class="label label-info">支付方式:{{post['payment_method']}}</span>
-           <span class="label label-warning">deliver方式:{{post['deliver_method']}}</span>
+           <span class="label label-primary">吃饭时间:{{post['deliver_time']}}</span>
+           <span class="label label-primary">支付方式:{{post['payment_method']}}</span>
+           <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
          </div>
          <div class="col-md-3 col-md-offset-1">
            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
