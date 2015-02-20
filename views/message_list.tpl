@@ -12,7 +12,7 @@
       %end
       {{message["body"]}}
       %if is_group==0:
-      <p><small><a href="/message/{{message["_id"]}}">展开对话</a> - <a href="">回复</a> - <a href="/message/remove/{{message["message_group_id"]}}">删除</a></small></p>
+      <p><small><a href="/message/{{message["_id"]}}">展开对话</a> - <a href="/message/{{message["_id"]}}">回复</a> - <a href="/message/remove/{{message["message_group_id"]}}">删除</a></small></p>
       %else:
       <p></p>
       %end
