@@ -1,37 +1,42 @@
 %include('header.tpl', html_title='首页')
 %include('nav.tpl')
 <body>
+
+
+
+
   <div class="container">
     <h2 style="text-align: center;">北美蹭饭网 - Beta</h2>
     <h2></h2>
     <!-- Nav tabs -->
     <div class="span12 centered-pills">
-    <ul class="nav nav-pills center-pills" role="tablist">
-      <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">要蹭饭的人</a></li>
-      <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">能做饭的人</a></li>
-    </ul>
+      <ul class="nav nav-pills center-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">要蹭饭的人</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">能做饭的人</a></li>
+      </ul>
     </div>
 
     <!-- Tab panes -->
-    <div class="tab-content">
+    <div class="tab-content index">
       <div role="tabpanel" class="tab-pane fade in active" id="home">
-        <h3><span class="label label-primary">Today</span></h3>
-        %for post in guest_posts:
+
+
         <div class="row">
-          <div class="col-md-4">
-           <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a><br></h3>
-           价钱: {{post['price']}}<br>
-           吃饭时间: {{post['deliver_time']}}<br>
-           支付方式: {{post['payment_method']}}
+          <div class="col-md-1"><div class="calendar">7 <em>Feb</em></div></div>
+          <div class="col-md-6"><h3>Feb 7 星期六</h3></div>
+        </div>
+
+        %for post in guest_posts:
+
+        <div class="row">
+          <div class="col-md-6 col-md-offset-1">
+           <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h3>
+           <span class="label label-primary">价钱:{{post['price']}}</span>
+           <span class="label label-success">吃饭时间:{{post['deliver_time']}}</span>
+           <span class="label label-info">支付方式:{{post['payment_method']}}</span>
+           <span class="label label-warning">deliver方式:{{post['deliver_method']}}</span>
          </div>
-         <div class="col-md-4">
-           <h3><br></h3>
-           deliver方式: {{post['deliver_method']}}<br>
-           特殊要求: {{post['requirements']}} <br>
-           联系方式: 邮箱，电话，微信
-         </div>
-         <div class="col-md-4" style="text-align: right;">
-           <br>
+         <div class="col-md-3 col-md-offset-1">
            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
            <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
          </div>
