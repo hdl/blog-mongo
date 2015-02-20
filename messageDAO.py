@@ -54,8 +54,8 @@ class MessageDAO:
 
     def get_messages_by_from_or_to(self, username):
         # get a list of message by (from=username or to=username) and status=0, which means initial msg
-        #cursor = self.messages.find({"$or":[{"from":username}, {"to":username}]}).sort('date', direction=-1)
-        cursor = self.messages.find({"status":0}).sort('date', direction=-1)
+        cursor = self.messages.find({"$and":[{"$or":[{"from":username}, {"to":username}]}, {"status":1}]}).sort('date', direction=-1)
+        #cursor = self.messages.find({"status":0}).sort('date', direction=-1)
         l = []
 
         for message in cursor:
