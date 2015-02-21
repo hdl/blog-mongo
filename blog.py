@@ -674,6 +674,19 @@ def appointment_confirm():
 
     bottle.redirect("/appointment")
 
+@bottle.post('/appointment/cancel')
+def appointment_cancel():
+
+    post = bottle.request.forms
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+    appointments.cancel_appointment(appointment_id=post["_id"])
+
+    bottle.redirect("/appointment")
+
 @bottle.route('/appointment')
 def appointment():
 

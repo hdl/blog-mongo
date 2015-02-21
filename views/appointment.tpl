@@ -19,18 +19,23 @@
               <div class="comments-list">
                 %for appointment in appointment_list:
                 <div class="media">
-                 <p class="text-right">
+                %if appointment["from"] != username:
+                 <div class="pull-right">
                   %if appointment["status"] == 0:
                   <form action="/appointment/confirm" method="post">
                     <input type="text" class="form-control sr-only" name="_id" value="{{appointment["_id"]}}">
                     <button type="submit" class="btn btn-success">Confirm</button>
                   </form>
-                  %else:
-                  <form >
-                    <button type="submit" class="btn">Cancel</button>
+                  %elif appointment["status"] == 1:
+                  <form action="/appointment/cancel" method="post">
+                    <input type="text" class="form-control sr-only" name="_id" value="{{appointment["_id"]}}">
+                    <button type="submit" class="btn btn-success">Cancel</button>
                   </form>
+                  %else:
+                    <h3><span class="label label-default">Canceled</span></h3>
                   %end
-                </p>
+                </div>
+                %end
                 <div class="media-body">
                   %if appointment["from"]==username:
                   <h4 class="media-heading user_name">发送给 {{appointment["to"]}}</h4>

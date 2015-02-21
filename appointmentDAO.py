@@ -21,6 +21,7 @@ import string
 import pymongo
 from mail import *
 import datetime
+from bson.objectid import ObjectId
 
 
 
@@ -51,7 +52,7 @@ class AppointmentDAO:
 
     def get_appointments_by_from_or_to(self, username):
         # get a list of appointment by (from=username or to=username) and status=0, which means initial msg
-        cursor = self.appointments.find({"$and":[{"$or":[{"from":username}, {"to":username}]}, {"status":0}]}).sort('date', direction=-1)
+        cursor = self.appointments.find({"$or":[{"from":username}, {"to":username}]}).sort('date', direction=-1)
         #cursor = self.appointments.find({"status":0}).sort('date', direction=-1)
         l = []
 
@@ -64,30 +65,16 @@ class AppointmentDAO:
                 continue
 
         return l
-    def get_appointments_by_appointment_group_id(self, appointment_group_id):
-        cursor = self.appointments.find({'appointment_group_id': appointment_group_id}).sort('date', direction=-1)
-        l = []
 
-        for appointment in cursor:
-            try:
-                appointment['date'] = appointment['date'].strftime("%A, %B %d %Y at %I:%M%p") # fix up date
-                l.append(appointment)
-            except:
-                print "key error in appointment ",str(appointment['_id'])
-                continue
-
-        return l
     def confirm_appointment(self, appointment_id):
         print "going to confirm_appointment"
         print appointment_id
-        print self.appointments.update({"_id": appointment_id}, {"$set": {"status": 1}})
+        print self.appointments.update({"_id": ObjectId(appointment_id)}, {"$set": {"status": 1}})
 
 
-    def remove_appointment_group(self, appointment_group_id):
-        try:
-            self.appointments.remove({'appointment_group_id': appointment_group_id})
-        except:
-            print "Error removing appointments"
-            print "Unexpected error:", sys.exc_info()[0]
+    def cancel_appointment(self, appointment_id):
+        print "going to confirm_appointment"
+        print appointment_id
+        print self.appointments.update({"_id": ObjectId(appointment_id)}, {"$set": {"status": 2}})
 
 
