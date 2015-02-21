@@ -1,8 +1,5 @@
 
 %include('header.tpl', html_title='编辑Post')
-<!-- include summernote css/js-->
-<link href="/static/summernote/summernote.css" rel="stylesheet">
-<script src="/static/summernote/summernote.js"></script>
 
 
 <!-- ... -->
@@ -111,21 +108,11 @@
   </div>
 
 </form>
-<form action="/upload" method="post" enctype="multipart/form-data">
-  Category:      <input type="text" name="category" />
-  Select a file: <input type="file" name="upload" />
-  <input type="submit" value="Start upload" />
-</form>
+
 </div>
 <p>
 </p>
 </body>
-
-<script type="text/javascript">
-$(document).ready(function() {
-  $('#body').summernote({height: 150});
-});
-</script>
 
 %include('footer.tpl')
 
