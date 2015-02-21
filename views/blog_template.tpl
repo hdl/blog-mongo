@@ -91,7 +91,7 @@
         <form action="/appointment/new" method="post">
           <div class="form-group">
             <label for="recipient-name" class="control-label" >Recipient:</label>
-            <input type="text" class="form-control" name="to" id="to" disabled>
+            <input type="text" class="form-control" name="to" id="to">
             <input type="text" class="form-control sr-only" name="post_id" id="post_id">
             <input type="text" class="form-control sr-only" name="post_title" id="post_title">
           </div>

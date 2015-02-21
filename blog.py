@@ -642,6 +642,7 @@ def message_one(message_group_id="notfound"):
 def appointment_new():
 
     post = bottle.request.forms
+    print post["to"]
 
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
