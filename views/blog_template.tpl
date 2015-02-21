@@ -20,15 +20,13 @@
     <div class="tab-content index">
       <div role="tabpanel" class="tab-pane fade in active" id="home">
 
-
-
         %last_day = today.day - 1
         %for post in guest_posts:
 
         % if post['deliver_time'].date().day != last_day:
         <div class="row">
-          <div class="col-md-1"><div class="calendar">7 <em>Feb</em></div></div>
-          <div class="col-md-6"><h3>Feb 7 星期六</h3></div>
+          <div class="col-md-1"><div class="calendar"> {{post['deliver_time'].strftime("%d")}} <em>{{post['deliver_time'].strftime("%b")}}</em></div></div>
+          <div class="col-md-6"><h3>{{post['deliver_time'].strftime("%m月%d日 %A")}}</h3></div>
         </div>
         %end
         %last_day = post['deliver_time'].date().day
@@ -50,26 +48,32 @@
        %end
      </div>
      <div role="tabpanel" class="tab-pane fade" id="profile">
-      <div class="row">
-        <div class="col-md-1"><div class="calendar">7 <em>Feb</em></div></div>
-        <div class="col-md-6"><h3>Feb 7 星期六</h3></div>
-      </div>
-      %for post in host_posts:
-      <div class="row">
-        <div class="col-md-6 col-md-offset-1">
-         <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h3>
-         <span class="label label-primary">价钱:{{post['price']}}</span>
-         <span class="label label-primary">吃饭时间:{{post['deliver_time']}}</span>
-         <span class="label label-primary">支付方式:{{post['payment_method']}}</span>
-         <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
+        %last_day = today.day - 1
+        %for post in host_posts:
+
+        % if post['deliver_time'].date().day != last_day:
+        <div class="row">
+          <div class="col-md-1"><div class="calendar"> {{post['deliver_time'].strftime("%d")}} <em>{{post['deliver_time'].strftime("%b")}}</em></div></div>
+          <div class="col-md-6"><h3>{{post['deliver_time'].strftime("%m月%d日 %A")}}</h3></div>
+        </div>
+        %end
+        %last_day = post['deliver_time'].date().day
+
+        <div class="row">
+          <div class="col-md-6 col-md-offset-1">
+           <h3><a href="/post/{{post['permalink']}}">{{post['title']}}</a></h3>
+           <span class="label label-primary">价钱:{{post['price']}}</span>
+           <span class="label label-primary">吃饭时间:{{post['deliver_time']}}</span>
+           <span class="label label-primary">支付方式:{{post['payment_method']}}</span>
+           <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
+         </div>
+         <div class="col-md-3 col-md-offset-1">
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
+           <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
+         </div>
        </div>
-       <div class="col-md-3 col-md-offset-1">
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
-         <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
-       </div>
-     </div>
-     <hr>
-     %end
+       <hr>
+       %end
    </div>
  </div>
 
