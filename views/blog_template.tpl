@@ -40,7 +40,7 @@
            <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
          </div>
          <div class="col-md-3 col-md-offset-1">
-           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-posttitle="{{post['title']}}" data-postid="{{post['_id']}}" data-whatever="{{post['author']}}">约饭</button>
            <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
          </div>
        </div>
@@ -68,7 +68,7 @@
            <span class="label label-primary">deliver方式:{{post['deliver_method']}}</span>
          </div>
          <div class="col-md-3 col-md-offset-1">
-           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-whatever="{{post['author']}}">约饭</button>
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#msgModal" data-posttitle="{{post['title']}}" data-postid="{{post['_id']}}" data-whatever="{{post['author']}}">约饭</button>
            <a class="btn btn-primary" href="/post/{{post['permalink']}}">评论</a>
          </div>
        </div>
@@ -85,17 +85,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="msgModalLabel">New message</h4>
+        <h4 class="modal-title" id="msgModalLabel">Appointment</h4>
       </div>
       <div class="modal-body">
-        <form action="/message/new" method="post">
+        <form action="/appointment/new" method="post">
           <div class="form-group">
-            <label for="recipient-name" class="control-label">Recipient:</label>
-            <input type="text" class="form-control" name="to" id="recipient-name">
+            <label for="recipient-name" class="control-label" >Recipient:</label>
+            <input type="text" class="form-control" name="to" id="to" disabled>
+            <input type="text" class="form-control sr-only" name="post_id" id="post_id">
+            <input type="text" class="form-control sr-only" name="post_title" id="post_title">
           </div>
           <div class="form-group">
             <label for="message-text" class="control-label">Message:</label>
-            <textarea class="form-control" name="body" id="message-text"></textarea>
+            <textarea class="form-control" name="msg" id="message-text" placeholder="发送约饭邀请后，请等待对方确认~~然后就可以快乐的约饭啦~你可以在这里简单留言"></textarea>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -114,11 +116,17 @@
 $('#msgModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
   var recipient = button.data('whatever') // Extract info from data-* attributes
+  var postid = button.data('postid')
+  var posttitle = button.data('posttitle')
+
+  //console.log(recipient)
   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
+  modal.find('.modal-title').text('Appointment to ' + recipient)
+  modal.find('.modal-body #to').val(recipient)
+  modal.find('.modal-body #post_id').val(postid)
+  modal.find('.modal-body #post_title').val(posttitle)
 })
 </script>
 

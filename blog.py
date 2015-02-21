@@ -24,6 +24,7 @@ import blogPostDAO
 import sessionDAO
 import userDAO
 import messageDAO
+import appointmentDAO
 import bottle
 import cgi
 import re
@@ -635,6 +636,30 @@ def message_one(message_group_id="notfound"):
         reply_to=message_list[0]['from']
     return bottle.template('message_one', dict(message_list=message_list, username=username, reply_to=reply_to))
 
+
+#######################message####################
+@bottle.post('/appointment/new')
+def appointment_new():
+
+    post = bottle.request.forms
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+
+    valid_appointment = {}
+    valid_appointment["from"] = username
+    valid_appointment["status"] = 0 #this is the initial message, following message is 1. They share same message_group_id
+    valid_keys_list = ["to", "msg", "post_id", "post_title"]
+    for key in valid_keys_list:
+        valid_appointment[key] = post[key]
+
+    appointments.new_appointment(appointment=valid_appointment)
+
+    print "-----------appointment send---------------"
+    bottle.redirect("/")
+
 # Helper Functions
 
 #extracts the tag from the tags form element. an experience python programmer could do this in  fewer lines, no doubt
@@ -684,7 +709,7 @@ posts = blogPostDAO.BlogPostDAO(database)
 users = userDAO.UserDAO(database)
 sessions = sessionDAO.SessionDAO(database)
 messages = messageDAO.MessageDAO(database)
-
+appointments = appointmentDAO.AppointmentDAO(database)
 
 bottle.debug(True)
 bottle.run(host='0.0.0.0', port=80, reloader=True, server='cherrypy')         # Start the webserver running and wait for requests
