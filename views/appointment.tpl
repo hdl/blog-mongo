@@ -38,7 +38,7 @@
                 %end
                 <div class="media-body">
                   %if appointment["from"]==username:
-                  <h4 class="media-heading user_name">发送给 {{appointment["to"]}}</h4>
+                  <h4 class="media-heading user_name">发送给 <a href="/user/profile/{{appointment["to"]}}">{{appointment["to"]}}</a></h4>
                   %else:
                   <h4 class="media-heading user_name">来自 {{appointment["from"]}}</h4>
                   %end
