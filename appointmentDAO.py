@@ -77,6 +77,11 @@ class AppointmentDAO:
                 continue
 
         return l
+    def confirm_appointment(self, appointment_id):
+        print "going to confirm_appointment"
+        print appointment_id
+        print self.appointments.update({"_id": appointment_id}, {"$set": {"status": 1}})
+
 
     def remove_appointment_group(self, appointment_group_id):
         try:

@@ -642,7 +642,6 @@ def message_one(message_group_id="notfound"):
 def appointment_new():
 
     post = bottle.request.forms
-    print post["to"]
 
     cookie = bottle.request.get_cookie("session")
     username = sessions.get_username(cookie)  # see if user is logged in
@@ -660,6 +659,34 @@ def appointment_new():
 
     print "-----------appointment send---------------"
     bottle.redirect("/")
+
+@bottle.post('/appointment/confirm')
+def appointment_confirm():
+
+    post = bottle.request.forms
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        bottle.redirect("/login")
+    print post["_id"]
+    appointments.confirm_appointment(appointment_id=post["_id"])
+
+    bottle.redirect("/appointment")
+
+@bottle.route('/appointment')
+def appointment():
+
+    cookie = bottle.request.get_cookie("session")
+    username = sessions.get_username(cookie)  # see if user is logged in
+    if username is None:
+        return bottle.template("login", dict(email="", password="", errors="Log in requreid", verify=""))
+    user = users.get_user_by_username(username)
+
+    appointment_list = appointments.get_appointments_by_from_or_to(username)
+
+    return bottle.template('appointment', dict(appointment_list=appointment_list, username=username, user=user))
+
 
 # Helper Functions
 
