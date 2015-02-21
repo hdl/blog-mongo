@@ -73,9 +73,6 @@ class BlogPostDAO:
 
         for post in cursor:
             try:
-                post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p") # fix up date
-                if 'tags' not in post:
-                    post['tags'] = [] # fill it in if its not there already
                 if 'comments' not in post:
                     post['comments'] = []
                 l.append(post)
@@ -97,9 +94,6 @@ class BlogPostDAO:
         l = []
 
         for post in cursor:
-            post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p")     # fix up date
-            if 'tags' not in post:
-                post['tags'] = []           # fill it in if its not there already
             if 'comments' not in post:
                 post['comments'] = []
 
@@ -112,9 +106,6 @@ class BlogPostDAO:
         l = []
 
         for post in cursor:
-            post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p")     # fix up date
-            if 'tags' not in post:
-                post['tags'] = []           # fill it in if its not there already
             if 'comments' not in post:
                 post['comments'] = []
 
@@ -153,9 +144,6 @@ class BlogPostDAO:
         l = []
 
         for post in cursor:
-            post['date'] = post['date'].strftime("%A, %B %d %Y at %I:%M%p")     # fix up date
-            if 'tags' not in post:
-                post['tags'] = []           # fill it in if its not there already
             if 'comments' not in post:
                 post['comments'] = []
 
