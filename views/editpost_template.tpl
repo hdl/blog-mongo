@@ -66,7 +66,7 @@
     <div class="form-group">
       <label for="deliver_time"><code>*</code> 吃饭时间</label>
       <div class='input-group date' id='datetimepicker1'>
-        <input type='text' class="form-control" name="deliver_time" value="{{post["deliver_time"].strftime('%m/%d/%Y %I:%M %p')}} "/>
+        <input type='text' class="form-control" name="deliver_time" value="{{post["deliver_time"].strftime('%m/%d/%Y %I:%M %p')}} if post else """/>
         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
         <script type="text/javascript">
