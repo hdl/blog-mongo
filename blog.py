@@ -55,8 +55,8 @@ def blog_index():
     username = sessions.get_username(cookie)
 
     # even if there is no logged in user, we can show the blog
-    guest_list = posts.get_posts_by_role("guest", 10)
-    host_list = posts.get_posts_by_role("host", 10)
+    guest_list = posts.get_posts_by_role("guest", 0)
+    host_list = posts.get_posts_by_role("host", 0)
 
     return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
 
@@ -333,7 +333,7 @@ def post_newpost():
 
     valid_post["author"] = username
     valid_post["status"] = 0 # 0:pending 1:complete
-    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
+    valid_keys_list = ["role", "price", "title", "body", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
     for key in valid_keys_list:
         valid_post[key] = post[key]
 
@@ -402,7 +402,7 @@ def post_updatepost(permalink="notfound"):
     # prepare for the post, only copy valid data in case of spam into DB
 
     valid_post["author"] = username
-    valid_keys_list = ["role", "price", "title", "body", "deliver_time", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
+    valid_keys_list = ["role", "price", "title", "body", "payment_method", "deliver_method", "requirements", "phone", "wechat", "category"]
     for key in valid_keys_list:
         valid_post[key] = post[key]
 

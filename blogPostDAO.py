@@ -85,9 +85,15 @@ class BlogPostDAO:
 
         return l
     # returns an array of num_posts posts, reverse ordered, filtered by role
-    def get_posts_by_role(self, role, num_posts):
+    def get_posts_by_role(self, role, day_offset):
 
-        cursor = self.posts.find({'role':role}).sort('date', direction=-1).limit(num_posts)
+        cursor = self.posts.find({'role':role}).sort('date', direction=-1)
+        today= datetime.date.today()
+        today_datetime = datetime.datetime(today.year, today.month, today.day)
+        start = today_datetime + datetime.timedelta(hours=24*(day_offset))
+        end = today_datetime + datetime.timedelta(hours=24*(day_offset+1))
+
+        cursor = self.posts.find({"$and":[{'deliver_time': {'$gte': start, '$lt': end}}, {'role':role}]}).sort('date', direction=-1)
         l = []
 
         for post in cursor:
