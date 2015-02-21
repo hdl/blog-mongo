@@ -55,8 +55,8 @@ def blog_index():
     username = sessions.get_username(cookie)
 
     # even if there is no logged in user, we can show the blog
-    guest_list = posts.get_posts_by_role("guest", 0)
-    host_list = posts.get_posts_by_role("host", 0)
+    guest_list = posts.get_posts_by_role("guest", 7)
+    host_list = posts.get_posts_by_role("host", 7)
 
     return bottle.template('blog_template', dict(guest_posts=guest_list,host_posts=host_list, username=username))
 
