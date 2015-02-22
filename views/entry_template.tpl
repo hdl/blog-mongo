@@ -27,9 +27,13 @@
         <div>{{!post['body']}}</div>
 
         <hr>
+        % if username != post['author']:
+        <a class="btn btn-primary disabled" href="/updatepost/{{post['permalink']}}">Edit Post <span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-danger disabled" href="/removepost/{{post['permalink']}}">Remove Post <span class="glyphicon glyphicon-trash"></span></a>
+        %else:
         <a class="btn btn-primary" href="/updatepost/{{post['permalink']}}">Edit Post <span class="glyphicon glyphicon-pencil"></span></a>
         <a class="btn btn-danger" href="/removepost/{{post['permalink']}}">Remove Post <span class="glyphicon glyphicon-trash"></span></a>
-
+        %end
         <hr>
 
         <h3>Comments</h3>
