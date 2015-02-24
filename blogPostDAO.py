@@ -90,7 +90,9 @@ class BlogPostDAO:
         start = today_datetime
         end = today_datetime + datetime.timedelta(hours=24*(day_offset))
 
-        cursor = self.posts.find({"$and":[{'deliver_time': {'$gte': start, '$lt': end}}, {'role':role}]}).sort('deliver_time', direction=1)
+        #cursor = self.posts.find({"$and":[{'deliver_time': {'$gte': start, '$lt': end}}, {'role':role}]}).sort('deliver_time', direction=1)
+        cursor = self.posts.find({"$and":[{'deliver_time': {'$gte': start}}, {'role':role}]}).sort('deliver_time', direction=1)
+
         l = []
 
         for post in cursor:
