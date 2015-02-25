@@ -742,7 +742,7 @@ def add_new_keys(post):
         if key not in post.keys():
             post[key] = ""
 
-connection_string = "mongodb://localhost"
+connection_string = "mongodb://cengfan.us"
 connection = pymongo.MongoClient(connection_string)
 database = connection.blog
 

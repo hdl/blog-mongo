@@ -20,7 +20,7 @@
     <div class="tab-content index">
       <div role="tabpanel" class="tab-pane fade in active" id="home">
 
-        %last_day = today.day - 1
+        %last_day = today.day - 10
         %for post in guest_posts:
 
         % if post['deliver_time'].date().day != last_day:
@@ -48,7 +48,7 @@
        %end
      </div>
      <div role="tabpanel" class="tab-pane fade" id="profile">
-        %last_day = today.day - 1
+        %last_day = today.day - 10
         %for post in host_posts:
 
         % if post['deliver_time'].date().day != last_day:
