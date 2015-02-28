@@ -351,6 +351,8 @@ def remove_post(permalink="notfound"):
 
     username = sessions.get_username(cookie)
     permalink = cgi.escape(permalink)
+    if username is None:
+        bottle.redirect("/login")
 
     post = posts.remove_post_by_permalink(permalink)
     bottle.redirect("/")
@@ -567,6 +569,8 @@ def remove_message_group(message_group_id="notfound"):
 
     username = sessions.get_username(cookie)
     message_group_id = cgi.escape(message_group_id)
+    if username is None:
+        bottle.redirect("/login")
 
     print "going to remove group_id"+message_group_id
     messages.remove_message_group(message_group_id)
