@@ -14,9 +14,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" action="/search" method="GET">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search for ...">
+          <input type="text" class="form-control" placeholder="Search for ..." name="q">
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
@@ -53,9 +53,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" action="/search" method="GET">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search for ...">
+          <input type="text" class="form-control" placeholder="Search for ..." name="q">
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
