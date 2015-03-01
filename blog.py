@@ -25,11 +25,13 @@ import sessionDAO
 import userDAO
 import messageDAO
 import appointmentDAO
+import instDAO
 import bottle
 import cgi
 import re
 from mail import *
 import datetime
+import pprint
 
 
 
@@ -216,6 +218,13 @@ def posts_by_tag(tag="notfound"):
 
     return bottle.template('blog_template', dict(myposts=l, username=username))
 
+@bottle.get('/search')
+def search():
+
+    cookie = bottle.request.get_cookie("session")
+    q = bottle.request.query['q']
+    l = insts.search_insts_by_alias(q)
+    return bottle.template('{{s}}', dict(s=l))
 
 # Displays a particular blog post
 @bottle.get("/post/<permalink>")
@@ -755,6 +764,7 @@ users = userDAO.UserDAO(database)
 sessions = sessionDAO.SessionDAO(database)
 messages = messageDAO.MessageDAO(database)
 appointments = appointmentDAO.AppointmentDAO(database)
+insts = instDAO.InstDAO(database)
 
 bottle.debug(True)
 bottle.run(host='0.0.0.0', port=80, reloader=True, server='cherrypy')         # Start the webserver running and wait for requests
