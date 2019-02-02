@@ -28,4 +28,4 @@ def send_email(EMAIL_TO, EMAIL_SUBJECT, BODY):
     return errors
 
 if __name__=='__main__':
-    print send_email("maoze365@gmail.com", "TEST for email setting", "This is the test<hr><p>23")
+    print send_email("test@gmail.com", "TEST for email setting", "This is the test<hr><p>23")
